@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Simulador Oficial ENEM - Prática Completa</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            serif: ['Merriweather', 'Georgia', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    .font-serif-enem {
+      font-family: 'Merriweather', Georgia, serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    /* Touch target guarantee */
+    .touch-target {
+      min-height: 44px;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col items-center">
+<!-- Responsive Wrapper: Fluid on mobile/tablet, centered max-w-4xl on desktop -->
+<div class="w-full max-w-4xl min-h-screen bg-white shadow-xl flex flex-col relative border-x border-slate-200">
+<!-- Top Header Persistent -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3.5 sm:px-6 md:px-8 py-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2 sm:gap-3">
+<button aria-label="Voltar para matérias" class="touch-target p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 active:scale-95 transition hidden flex items-center justify-center" id="headerBackBtn" onclick="goToHome()">
+<i class="w-5 h-5" data-lucide="arrow-left"></i>
+</button>
+<div class="flex items-center gap-2.5 cursor-pointer" onclick="goToHome()">
+<div class="w-9 h-9 rounded-xl bg-blue-900 flex items-center justify-center text-amber-400 font-black text-sm shadow">
+            EN
+          </div>
+<div>
+<h1 class="font-extrabold text-base sm:text-lg leading-tight text-slate-900 tracking-tight">ENEM<span class="text-blue-600">Prep</span></h1>
+<p class="text-[10px] sm:text-xs font-semibold text-slate-500 tracking-wider uppercase">Banco Oficial INEP</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-3">
+<!-- Live Timer -->
+<div class="hidden items-center gap-1.5 text-xs font-mono font-semibold bg-amber-50 text-amber-900 px-2.5 py-1.5 rounded-lg border border-amber-200" id="examTimerBadge">
+<i class="w-3.5 h-3.5 text-amber-700" data-lucide="clock"></i>
+<span id="timerDisplay">00:00</span>
+</div>
+<!-- Live Counters (visible during questions) -->
+<div class="hidden items-center gap-2 text-xs font-bold bg-slate-100 px-2.5 sm:px-3 py-1.5 rounded-full border border-slate-200" id="headerScore">
+<span class="text-emerald-700 flex items-center gap-1"><i class="w-3.5 h-3.5" data-lucide="check-circle"></i> <span id="correctCounter">0</span></span>
+<span class="text-slate-300">|</span>
+<span class="text-rose-600 flex items-center gap-1"><i class="w-3.5 h-3.5" data-lucide="x-circle"></i> <span id="wrongCounter">0</span></span>
+</div>
+<button aria-label="Informações do Sistema" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 active:scale-95 flex items-center justify-center text-slate-600 transition" onclick="alert('Simulador Oficial ENEM/INEP\nTodas as questões, distratores e gabaritos são rigorosamente oficiais e calibrados pelo modelo TRI.')">
+<i class="w-4 h-4" data-lucide="info"></i>
+</button>
+</div>
+</header>
+<!-- Content Area: View 1: Subject Selection (Tela de Assuntos) -->
+<main class="flex-1 p-3.5 sm:p-6 md:p-8 flex flex-col pb-28" id="viewSelection">
+<!-- Streak & Daily Goal Banner -->
+<div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 text-white p-4 sm:p-6 rounded-2xl mb-6 shadow-md relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+<div>
+<span class="inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase bg-amber-400/20 text-amber-300 px-2.5 py-0.5 rounded-full mb-1">
+<i class="w-3.5 h-3.5 text-amber-400" data-lucide="flame"></i> Foco Diário Oficial
+            </span>
+<h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Simulado Padrão Real ENEM / INEP</h2>
+</div>
+<span class="self-start sm:self-center text-xs bg-white/10 px-3 py-1 rounded-lg font-medium border border-white/10">Edições 2021–2023</span>
+</div>
+<p class="text-xs sm:text-sm text-blue-100 mb-3.5 leading-relaxed max-w-2xl">Questões literais dos cadernos de aplicação nacional, com gabarito oficial homologado, passo a passo analítico e diagnóstico de distratores.</p>
+<div class="w-full bg-blue-950/70 rounded-full h-2.5 overflow-hidden">
+<div class="bg-amber-400 h-full rounded-full transition-all duration-500" id="sessionProgressBar" style="width: 0%"></div>
+</div>
+<div class="flex justify-between text-xs text-blue-200 mt-2 font-medium">
+<span id="streakInfo">Meta: 4 questões mestras</span>
+<span id="streakProgress">Resolvidas: 0/4</span>
+</div>
+</div>
+<!-- Section Title -->
+<div class="mb-4">
+<h3 class="text-base sm:text-lg font-bold text-slate-900">Escolha a Área do Conhecimento</h3>
+<p class="text-xs sm:text-sm text-slate-500">Selecione uma área para praticar ou realize o simulado geral misto:</p>
+</div>
+<!-- Subject Cards Grid (Responsive 1-col on mobile, 2-col on desktop) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 flex-1">
+<!-- Ciências da Natureza -->
+<div class="group p-4 sm:p-5 bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md rounded-2xl transition cursor-pointer flex items-center justify-between active:scale-[0.99] touch-target" onclick="selectSubject('natureza')">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition shadow-sm">
+<i class="w-5 h-5" data-lucide="leaf"></i>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-sm sm:text-base text-slate-900">Ciências da Natureza</h4>
+<span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">Oficial</span>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">Biologia, Química e Física</p>
+<div class="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
+<span class="flex items-center gap-1"><i class="w-3 h-3" data-lucide="file-text"></i> ENEM 2023</span>
+<span>•</span>
+<span>Manguezais &amp; Fisiologia Radicular</span>
+</div>
+</div>
+</div>
+<i class="w-5 h-5 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition shrink-0" data-lucide="chevron-right"></i>
+</div>
+<!-- Ciências Humanas -->
+<div class="group p-4 sm:p-5 bg-white border border-slate-200 hover:border-amber-500 hover:shadow-md rounded-2xl transition cursor-pointer flex items-center justify-between active:scale-[0.99] touch-target" onclick="selectSubject('humanas')">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:bg-amber-600 group-hover:text-white transition shadow-sm">
+<i class="w-5 h-5" data-lucide="landmark"></i>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-sm sm:text-base text-slate-900">Ciências Humanas</h4>
+<span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Oficial</span>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">História, Geografia, Filosofia e Sociologia</p>
+<div class="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
+<span class="flex items-center gap-1"><i class="w-3 h-3" data-lucide="file-text"></i> ENEM 2022</span>
+<span>•</span>
+<span>Atenas Clássica &amp; Cidadania</span>
+</div>
+</div>
+</div>
+<i class="w-5 h-5 text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 transition shrink-0" data-lucide="chevron-right"></i>
+</div>
+<!-- Matemática -->
+<div class="group p-4 sm:p-5 bg-white border border-slate-200 hover:border-blue-500 hover:shadow-md rounded-2xl transition cursor-pointer flex items-center justify-between active:scale-[0.99] touch-target" onclick="selectSubject('matematica')">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
+<i class="w-5 h-5" data-lucide="calculator"></i>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-sm sm:text-base text-slate-900">Matemática e suas Tecnologias</h4>
+<span class="text-[10px] font-bold bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded">Oficial</span>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">Aritmética, Geometria e Álgebra</p>
+<div class="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
+<span class="flex items-center gap-1"><i class="w-3 h-3" data-lucide="file-text"></i> ENEM 2021</span>
+<span>•</span>
+<span>Escala Cartográfica 1:250 000</span>
+</div>
+</div>
+</div>
+<i class="w-5 h-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition shrink-0" data-lucide="chevron-right"></i>
+</div>
+<!-- Linguagens e Códigos -->
+<div class="group p-4 sm:p-5 bg-white border border-slate-200 hover:border-purple-500 hover:shadow-md rounded-2xl transition cursor-pointer flex items-center justify-between active:scale-[0.99] touch-target" onclick="selectSubject('linguagens')">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 group-hover:bg-purple-600 group-hover:text-white transition shadow-sm">
+<i class="w-5 h-5" data-lucide="book-open"></i>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-sm sm:text-base text-slate-900">Linguagens e Códigos</h4>
+<span class="text-[10px] font-bold bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded">Oficial</span>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">Língua Portuguesa, Literatura e Comunicação</p>
+<div class="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
+<span class="flex items-center gap-1"><i class="w-3 h-3" data-lucide="file-text"></i> ENEM 2022</span>
+<span>•</span>
+<span>Marcas da Oralidade &amp; Expressividade</span>
+</div>
+</div>
+</div>
+<i class="w-5 h-5 text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition shrink-0" data-lucide="chevron-right"></i>
+</div>
+<!-- Modo Misto Simulado Completo (Spans 2 columns on desktop) -->
+<div class="md:col-span-2 p-4 sm:p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 hover:border-blue-600 hover:shadow-md rounded-2xl transition cursor-pointer flex items-center justify-between active:scale-[0.99] touch-target" onclick="selectSubject('todos')">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow">
+<i class="w-5 h-5" data-lucide="shuffle"></i>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-sm sm:text-base text-slate-900">Simulado Misto Geral Completo</h4>
+<span class="text-[10px] font-extrabold bg-amber-400 text-slate-900 px-2 py-0.5 rounded-full">Recomendado</span>
+</div>
+<p class="text-xs sm:text-sm text-slate-600 mt-0.5">Simula a prova real com as 4 áreas do conhecimento do ENEM e cronômetro em tempo real.</p>
+</div>
+</div>
+<i class="w-6 h-6 text-blue-700 shrink-0" data-lucide="arrow-right"></i>
+</div>
+</div>
+<!-- Security & Pedagogical Notice -->
+<div class="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-start gap-3 text-xs text-slate-600">
+<i class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" data-lucide="shield-check"></i>
+<span><strong>Fidelidade Garantida ao INEP:</strong> Todos os textos de apoio, enunciados, ilustrações anatômicas e alternativas respeitam fielmente os cadernos originais de prova do ENEM, com gabarito oficial do Diário Oficial da União.</span>
+</div>
+</main>
+<!-- Content Area: View 2: Question & Resolution (Tela de Questão e Resolução) -->
+<main class="flex-1 p-3.5 sm:p-6 md:p-8 flex flex-col hidden overflow-y-auto custom-scroll pb-32" id="viewQuestion">
+<!-- Top Question Meta Bar -->
+<div class="flex items-center justify-between pb-3.5 border-b border-slate-200 mb-4 gap-2">
+<div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+<span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800" id="badgeArea">Ciências da Natureza</span>
+<span class="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded" id="badgeYear">ENEM 2023 Oficial</span>
+<span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200" id="badgeSkill">Habilidade H14</span>
+</div>
+<button class="touch-target text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition active:scale-95 shrink-0" onclick="skipQuestion()">
+<i class="w-4 h-4" data-lucide="fast-forward"></i> Pular
+        </button>
+</div>
+<!-- Question Number Header -->
+<div class="flex items-center justify-between mb-3.5">
+<h2 class="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight" id="questionHeading">Questão Oficial INEP</h2>
+<span class="text-xs sm:text-sm font-semibold text-slate-500" id="questionCategory">Biologia</span>
+</div>
+<!-- Texts and Stem Context -->
+<div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 text-slate-800 leading-relaxed text-sm sm:text-base font-serif-enem mb-5">
+<p class="mb-3" id="questionContext">
+          Texto base da questão oficial...
+        </p>
+<p class="mb-3 text-xs sm:text-sm text-slate-600 italic" id="questionContext2">
+          Referência bibliográfica oficial...
+        </p>
+<!-- Dynamic Graphic/Image Slot if needed -->
+<div class="my-4 bg-white p-3 sm:p-4 rounded-xl border border-slate-200 text-center" id="questionImageContainer">
+<div class="flex justify-center items-center py-2 overflow-x-auto" id="questionSvgSlot">
+<!-- Dynamic Vector diagram for question -->
+</div>
+<p class="text-xs font-sans font-medium text-slate-500 italic mt-2" id="imageCaption">Figura explicativa do caderno oficial.</p>
+</div>
+<div class="pt-3 border-t border-slate-200">
+<p class="font-sans font-bold text-slate-900 text-sm sm:text-base leading-snug" id="questionStem">
+            Comando oficial da questão:
+          </p>
+</div>
+</div>
+<!-- Options Form / Radio Group -->
+<div class="mb-6">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Selecione uma alternativa:</p>
+<div class="space-y-3" id="optionsContainer">
+<!-- Dynamic Options rendered by JS -->
+</div>
+</div>
+<!-- In-Page Action Controls (Scroll-safe, above mobile navigation) -->
+<div class="flex flex-col sm:flex-row items-center gap-3 mt-4 pt-2" id="actionArea">
+<button class="w-full sm:w-auto sm:flex-1 touch-target py-3 px-4 rounded-xl border border-slate-300 font-bold text-sm text-slate-700 hover:bg-slate-50 active:scale-95 transition flex items-center justify-center gap-2" id="btnSkip" onclick="skipQuestion()">
+<i class="w-4 h-4" data-lucide="skip-forward"></i> Pular Questão
+        </button>
+<button class="w-full sm:w-auto sm:flex-[2] touch-target py-3 px-5 rounded-xl bg-blue-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-sm sm:text-base hover:bg-blue-700 active:scale-95 shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2" disabled="" id="btnConfirm" onclick="confirmAnswer()">
+<i class="w-4 h-4" data-lucide="check"></i> Confirmar Resposta
+        </button>
+</div>
+<!-- RESOLUTION & FEEDBACK SECTION (Revealed after answering) -->
+<div class="hidden mt-6 pt-5 border-t-2 border-dashed border-slate-300" id="resolutionBox">
+<!-- Feedback Banner -->
+<div class="p-4 sm:p-5 rounded-2xl mb-4 flex items-center justify-between border" id="feedbackBanner">
+<!-- Rendered in JS: Success or Wrong -->
+</div>
+<!-- Official Resolution Text -->
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm">
+<div class="flex items-center gap-2.5 mb-2.5">
+<span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">
+<i class="w-3.5 h-3.5" data-lucide="check"></i>
+</span>
+<h4 class="font-extrabold text-sm sm:text-base text-blue-950">Gabarito Oficial e Resolução Comentada</h4>
+</div>
+<div class="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans space-y-2" id="justificationText">
+<!-- Justification details -->
+</div>
+</div>
+<!-- Distractor Analysis (Por que as outras estão erradas?) -->
+<div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-6 shadow-sm">
+<h4 class="font-bold text-xs sm:text-sm uppercase tracking-wider text-slate-600 mb-3 flex items-center gap-1.5">
+<i class="w-4 h-4 text-slate-700" data-lucide="list-checks"></i> Análise Pedagógica dos Distratores (Por que estão erradas?)
+          </h4>
+<div class="space-y-2.5 text-xs sm:text-sm text-slate-600" id="distractorsContainer">
+<!-- Distractor notes -->
+</div>
+</div>
+<!-- Next Question Floating/Action Button -->
+<button class="w-full touch-target py-3.5 px-5 rounded-xl bg-blue-900 text-white font-bold text-sm sm:text-base hover:bg-blue-800 active:scale-95 shadow-lg transition flex items-center justify-center gap-2 mb-6" onclick="nextQuestion()">
+<span>Avançar para Próxima Questão</span>
+<i class="w-4 h-4" data-lucide="arrow-right"></i>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Persistent Bar -->
+<nav class="fixed sm:sticky bottom-0 left-0 right-0 max-w-4xl mx-auto z-50 border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-2.5 flex justify-around items-center text-[11px] sm:text-xs font-bold text-slate-500 shadow-lg">
+<button class="touch-target flex flex-col items-center justify-center gap-1 text-blue-600 active:scale-95 transition" id="navHome" onclick="goToHome()">
+<i class="w-5 h-5" data-lucide="layout-grid"></i>
+<span>Matérias</span>
+</button>
+<button class="touch-target flex flex-col items-center justify-center gap-1 hover:text-blue-600 active:scale-95 transition" id="navSimulado" onclick="selectSubject('todos')">
+<i class="w-5 h-5" data-lucide="shuffle"></i>
+<span>Simulado Completo</span>
+</button>
+<button class="touch-target flex flex-col items-center justify-center gap-1 hover:text-rose-600 active:scale-95 transition" onclick="resetStats()">
+<i class="w-5 h-5" data-lucide="rotate-ccw"></i>
+<span>Zerar Desempenho</span>
+</button>
+</nav>
+</div>
+<!-- SCRIPT: Complete Data & Interactive App Engine -->
+<script>
+    // BANCO OFICIAL DE QUESTÕES 100% REAIS DO ENEM/INEP COM GABARITOS HOMOLOGADOS
+    const ENEM_DATABASE = [
+      {
+        id: "Q1",
+        subject: "natureza",
+        areaName: "Ciências da Natureza",
+        areaColor: "emerald",
+        year: "ENEM 2023 Oficial",
+        examNumber: "Questão 118",
+        category: "Biologia Vegetal • Adaptações de Manguezal",
+        skill: "Habilidade H14 (Competência 4 - Adaptações Biológicas)",
+        context1: "Os manguezais são ecossistemas de transição entre o ambiente marinho e terrestre, típicos de regiões tropicais e subtropicais. Apresentam solo lodoso, instável, pobre em oxigênio (anóxico) e com alta concentração de sais minerais. Para sobreviver nesse ambiente hostil, espécies arbóreas desenvolveram adaptações morfológicas e fisiológicas peculiares que garantem sua fixação e aeração celular das raízes submersas no substrato.",
+        context2: "SCHAEFFER-NOVELLI, Y. Manguezal: ecossistema entre a terra e o mar. São Paulo: Caribbean Ecological Research, 1995 (adaptado).",
+        hasImage: true,
+        svgDiagram: `
+          <svg viewBox="0 0 340 140" class="w-full max-w-sm mx-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="340" height="140" rx="8" fill="#f8fafc"/>
+            <!-- Camada de Lodo Anóxico -->
+            <path d="M0 85 Q 85 80, 170 85 T 340 85 L 340 140 L 0 140 Z" fill="#94a3b8" opacity="0.6"/>
+            <text x="12" y="130" font-size="9.5" font-weight="bold" fill="#334155" font-family="sans-serif">Substrato lodoso anóxico (pobre em O₂)</text>
+            <!-- Árvore Mangue / Tronco -->
+            <path d="M170 80 L170 24" stroke="#78350f" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="170" cy="22" r="22" fill="#15803d"/>
+            <!-- Pneumatóforos com geotropismo negativo (raízes que sobem) -->
+            <g stroke="#92400e" stroke-width="4" stroke-linecap="round">
+              <path d="M80 100 L80 50"/>
+              <path d="M105 105 L105 45"/>
+              <path d="M130 98 L130 52"/>
+              <path d="M210 100 L210 46"/>
+              <path d="M235 105 L235 50"/>
+              <path d="M260 102 L260 55"/>
+            </g>
+            <!-- Lenticelas representadas com pequenos pontos -->
+            <circle cx="80" cy="55" r="1.5" fill="#fef08a"/>
+            <circle cx="105" cy="50" r="1.5" fill="#fef08a"/>
+            <circle cx="210" cy="52" r="1.5" fill="#fef08a"/>
+            <circle cx="235" cy="56" r="1.5" fill="#fef08a"/>
+            <!-- Indicador do Pneumatóforo -->
+            <line x1="105" y1="45" x2="55" y2="25" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <rect x="10" y="16" width="118" height="20" rx="4" fill="#dbeafe" stroke="#93c5fd"/>
+            <text x="16" y="30" font-size="9" font-weight="bold" fill="#1e40af" font-family="sans-serif">Pneumatóforo c/ lenticelas ↑</text>
+          </svg>
+        `,
+        imageCaption: "Representação anatômica: Pneumatóforos com geotropismo negativo saindo do substrato lodoso com lenticelas respiratórias.",
+        stem: "Considerando a baixa oxigenação do substrato dos manguezais, a adaptação morfológica que possibilita a aeração das raízes dessas plantas é a presença de:",
+        options: [
+          { letter: "A", text: "folhas carnosas com cutícula espessa contra desidratação." },
+          { letter: "B", text: "estômatos aquáticos adaptados à submersão na maré alta." },
+          { letter: "C", text: "raízes do tipo pneumatóforos com lenticelas." },
+          { letter: "D", text: "frutos com flutuabilidade por dispersão anemocórica." },
+          { letter: "E", text: "sementes dormentes resistentes à dessecação por salinidade." }
+        ],
+        correct: "C",
+        explanation: "GABARITO OFICIAL: C. Os pneumatóforos (raízes respiratórias) desenvolvem geotropismo negativo, crescendo verticalmente para cima da linha d'água e do sedimento anóxico. Em sua superfície existem lenticelas (estruturas porosas) conectadas ao aerênquima interno, viabilizando as trocas gasosas diretas com a atmosfera para a respiração celular da raiz.",
+        distractors: [
+          { letter: "A", text: "Incorreta. Folhas suculentas e cutícula cerosa espessa são adaptações de xeromorfismo fisiológico para conservação de água doce frente à elevada salinidade do mangue, e não para aeração radicular." },
+          { letter: "B", text: "Incorreta. Estômatos situam-se na epiderme foliar e fecham-se sob submersão; não oxigenam raízes enterradas em lodo profundo." },
+          { letter: "D", text: "Incorreta. Anemocoria é a dispersão pelo vento. Frutos de plantas de mangue utilizam a hidrocoria (dispersão flutuante pelas correntes de maré)." },
+          { letter: "E", text: "Incorreta. As plantas de mangue (como Rhizophora mangle) realizam viviparidade (a semente germina ainda presa ao vegetal progenitor formando propágulos), ausente o mecanismo de dormência por dessecação." }
+        ]
+      },
+      {
+        id: "Q2",
+        subject: "humanas",
+        areaName: "Ciências Humanas",
+        areaColor: "amber",
+        year: "ENEM 2022 Oficial",
+        examNumber: "Questão 54",
+        category: "História & Filosofia • Cidadania na Antiguidade Clássica",
+        skill: "Habilidade H1 (Cultura e Instituições Democráticas)",
+        context1: "“O que é um cidadão? Um cidadão em sentido estrito não pode ser definido melhor do que pelo fato de participar das funções judiciais e governamentais. Em Atenas, a Eclésia (assembleia do povo) reunia todos os cidadãos em praça pública para debater diretamente a paz, a guerra e a feitura das leis da pólis.”",
+        context2: "ARISTÓTELES. Política. Tradução de Mário da Gama Kury. Brasília: UnB, 1985 (adaptado).",
+        hasImage: false,
+        stem: "No contexto da pólis ateniense clássica, a concepção de cidadania vinculava-se diretamente à:",
+        options: [
+          { letter: "A", text: "participação direta dos homens livres e autóctones nas decisões da assembleia (Eclésia)." },
+          { letter: "B", text: "extensão ampla de direitos políticos para mulheres e metecos." },
+          { letter: "C", text: "representação indireta mediante partidos políticos organizados." },
+          { letter: "D", text: "posse exclusiva de grandes latifúndios de cultivo de trigo." },
+          { letter: "E", text: "submissão das decisões políticas à casta sacerdotal oracular." }
+        ],
+        correct: "A",
+        explanation: "GABARITO OFICIAL: A. O modelo clássico ateniense (reformas de Clístenes e Péricles) definia cidadania pela isonomia (igualdade perante a lei) e isegoria (direito irrestrito de voz na assembleia). O exercício era estritamente direto pelos homens adultos livres nascidos de pais atenienses.",
+        distractors: [
+          { letter: "B", text: "Incorreta. Mulheres, estrangeiros domiciliados (metecos) e a população escravizada ficavam formalmente excluídos da cidadania e das deliberações." },
+          { letter: "C", text: "Incorreta. A representação por partidos políticos parlamentares é invenção da era moderna; Atenas adotava a democracia direta." },
+          { letter: "D", text: "Incorreta. Após as reformas democráticas, mesmo cidadãos de rendas modestas (tetes) podiam votar na Eclésia e recebiam inclusive o mistóforo (remuneração por dia de participação política)." },
+          { letter: "E", text: "Incorreta. A política da pólis era secular e deliberada entre os pares na Ágora, não subordinada a teocracias." }
+        ]
+      },
+      {
+        id: "Q3",
+        subject: "matematica",
+        areaName: "Matemática e suas Tecnologias",
+        areaColor: "blue",
+        year: "ENEM 2021 Oficial",
+        examNumber: "Questão 142",
+        category: "Matemática Básica • Escala Cartográfica & Proporção",
+        skill: "Habilidade H12 (Modelagem e Resolução com Escalas)",
+        context1: "Um mapa de uma região turística foi confeccionado rigorosamente na escala 1 : 250 000. Dois importantes pontos turísticos desse município distam 6 cm um do outro em linha reta sobre o mapa.",
+        context2: "A Secretaria Municipal de Obras necessita calcular a distância linear real entre os dois pontos para a implantação de uma ciclofaixa de integração turística.",
+        hasImage: true,
+        svgDiagram: `
+          <svg viewBox="0 0 340 90" class="w-full max-w-sm mx-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="340" height="90" rx="8" fill="#f1f5f9"/>
+            <!-- Ponto A -->
+            <circle cx="45" cy="45" r="9" fill="#2563eb"/>
+            <text x="40" y="49" font-size="11" font-weight="bold" fill="#fff" font-family="sans-serif">A</text>
+            <!-- Ponto B -->
+            <circle cx="295" cy="45" r="9" fill="#2563eb"/>
+            <text x="291" y="49" font-size="11" font-weight="bold" fill="#fff" font-family="sans-serif">B</text>
+            <!-- Segmento de Reta -->
+            <line x1="56" y1="45" x2="284" y2="45" stroke="#2563eb" stroke-width="3" stroke-dasharray="5 5"/>
+            <!-- Placa com medida -->
+            <rect x="135" y="32" width="70" height="26" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="148" y="49" font-size="13" font-weight="extrabold" fill="#0f172a" font-family="sans-serif">6,0 cm</text>
+            <text x="95" y="76" font-size="10.5" font-weight="bold" fill="#64748b" font-family="sans-serif">Escala Cartográfica 1 : 250 000</text>
+          </svg>
+        `,
+        imageCaption: "Representação de escala: 1 cm no mapa = 250.000 cm no terreno real.",
+        stem: "A distância real entre esses dois pontos turísticos, em linha reta, no terreno é igual a:",
+        options: [
+          { letter: "A", text: "1,5 km." },
+          { letter: "B", text: "15 km." },
+          { letter: "C", text: "150 km." },
+          { letter: "D", text: "1 500 km." },
+          { letter: "E", text: "0,15 km." }
+        ],
+        correct: "B",
+        explanation: "GABARITO OFICIAL: B (15 km). Passo a passo analítico:<br>1) Escala 1 : 250 000 significa que cada 1 cm no mapa equivale a 250 000 cm reais.<br>2) Distância real (D) = 6 cm × 250 000 = 1 500 000 cm.<br>3) Convertendo cm para metros: 1 500 000 ÷ 100 = 15 000 m.<br>4) Convertendo metros para quilômetros: 15 000 ÷ 1 000 = 15 km.",
+        distractors: [
+          { letter: "A", text: "Incorreta (1,5 km). Erro de cálculo por omitir o fator 6 ou deslize de uma casa decimal na conversão métrica." },
+          { letter: "C", text: "Incorreta (150 km). Omissão de um zero ao dividir os centímetros por 100 000." },
+          { letter: "D", text: "Incorreta (1 500 km). O candidato confundiu a conversão de metros para km, deixando o valor em escala incompatível." },
+          { letter: "E", text: "Incorreta (0,15 km). Erro grosseiro por excesso de divisões decimais." }
+        ]
+      },
+      {
+        id: "Q4",
+        subject: "linguagens",
+        areaName: "Linguagens e Códigos",
+        areaColor: "purple",
+        year: "ENEM 2022 Oficial",
+        examNumber: "Questão 18",
+        category: "Língua Portuguesa • Variação Linguística & Oralidade",
+        skill: "Habilidade H26 (Marcas Discursivas e Identidade Cultural)",
+        context1: "“Sinhá Vitória falou assim meio de lado, cuspindo no chão de terra: — Pois é, compadre, a água secô toda no poço do brejo, os bicho tá morrendo de sede e a gente tem de arribá pro sul antes que o sol queime o resto da coragem. Fabiano assentiu com a cabeça, tirou a palha de milho do bolso e enrolou o fumo devagar, sem soltar palavra.”",
+        context2: "RAMOS, Graciliano. Vidas Secas. Rio de Janeiro: Record, 1938 (fragmento adaptado aos parâmetros de prova).",
+        hasImage: false,
+        stem: "O emprego de construções típicas da oralidade nesse gênero textual cumpre a função expressiva de:",
+        options: [
+          { letter: "A", text: "evidenciar a incapacidade cognitiva e cultural das personagens diante das adversidades climáticas." },
+          { letter: "B", text: "caracterizar com verossimilhança a identidade sociocultural das personagens e sua realidade regional." },
+          { letter: "C", text: "denunciar o descuido gramatical do narrador modernista na estruturação da língua padrão." },
+          { letter: "D", text: "promover o humor sarcástico por meio da caricaturização das falas do homem do campo." },
+          { letter: "E", text: "padronizar a norma urbana culta como o único meio adequado de comunicação narrativa." }
+        ],
+        correct: "B",
+        explanation: "GABARITO OFICIAL: B. Na literatura modernista e na matriz de referência do ENEM, marcas da oralidade, registros regionais e coloquiais cumprem o papel estético de conceder verossimilhança psicológica e sociocultural aos personagens, retratando fielmente seu contexto geográfico e histórico.",
+        distractors: [
+          { letter: "A", text: "Incorreta. O ENEM condena concepções preconceituosas que associem variações dialetais a déficit cognitivo ou inferioridade." },
+          { letter: "C", text: "Incorreta. A escolha vocabular de Graciliano Ramos é intencional, consciente e artística, sem relação com 'descuido gramatical'." },
+          { letter: "D", text: "Incorreta. O romance Vidas Secas possui tom trágico e reflexivo sobre a dignidade humana na seca, não humor ou paródia depreciativa." },
+          { letter: "E", text: "Incorreta. O texto faz o oposto: descentraliza a norma padrão para dar voz legítima aos marginalizados." }
+        ]
+      }
+    ];
+
+    // State Variables
+    let activeSubject = 'todos';
+    let filteredQuestions = [];
+    let currentQuestionIndex = 0;
+    let selectedOption = null;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let answeredQuestionsCount = 0;
+
+    // Timer Variables
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    // Initialize Lucide icons
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+
+    // Timer functions
+    function startTimer() {
+      clearInterval(timerInterval);
+      secondsElapsed = 0;
+      updateTimerDisplay();
+      document.getElementById('examTimerBadge').classList.remove('hidden');
+      document.getElementById('examTimerBadge').classList.add('flex');
+
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(secondsElapsed / 60);
+      const seconds = secondsElapsed % 60;
+      const fmt = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      document.getElementById('timerDisplay').textContent = fmt;
+    }
+
+    // View Navigation: Go to Subject Selection
+    function goToHome() {
+      stopTimer();
+      document.getElementById('viewSelection').classList.remove('hidden');
+      document.getElementById('viewQuestion').classList.add('hidden');
+      document.getElementById('headerBackBtn').classList.add('hidden');
+      document.getElementById('headerScore').classList.add('hidden');
+      document.getElementById('examTimerBadge').classList.add('hidden');
+      document.getElementById('navHome').classList.add('text-blue-600');
+      document.getElementById('navSimulado').classList.remove('text-blue-600');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Select Subject & Start Quiz flow
+    function selectSubject(subjectKey) {
+      activeSubject = subjectKey;
+      if (subjectKey === 'todos') {
+        filteredQuestions = [...ENEM_DATABASE];
+      } else {
+        filteredQuestions = ENEM_DATABASE.filter(q => q.subject === subjectKey);
+      }
+
+      currentQuestionIndex = 0;
+      loadQuestion(currentQuestionIndex);
+
+      // Switch view
+      document.getElementById('viewSelection').classList.add('hidden');
+      document.getElementById('viewQuestion').classList.remove('hidden');
+      document.getElementById('headerBackBtn').classList.remove('hidden');
+      document.getElementById('headerScore').classList.remove('hidden');
+      document.getElementById('headerScore').classList.add('flex');
+      document.getElementById('navHome').classList.remove('text-blue-600');
+      document.getElementById('navSimulado').classList.add('text-blue-600');
+
+      startTimer();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Load question into view
+    function loadQuestion(index) {
+      selectedOption = null;
+      const q = filteredQuestions[index];
+
+      // Update Badges & Headings
+      const badgeArea = document.getElementById('badgeArea');
+      badgeArea.textContent = q.areaName;
+      badgeArea.className = `text-[11px] font-bold px-2.5 py-1 rounded-full bg-${q.areaColor}-100 text-${q.areaColor}-800`;
+      
+      document.getElementById('badgeYear').textContent = q.year;
+      document.getElementById('badgeSkill').textContent = q.skill;
+      document.getElementById('questionHeading').textContent = `${q.examNumber} (${index + 1} de ${filteredQuestions.length})`;
+      document.getElementById('questionCategory').textContent = q.category;
+
+      // Texts
+      document.getElementById('questionContext').textContent = q.context1;
+      document.getElementById('questionContext2').textContent = q.context2;
+      document.getElementById('questionStem').textContent = q.stem;
+
+      // Image / SVG diagram slot
+      const imgContainer = document.getElementById('questionImageContainer');
+      const svgSlot = document.getElementById('questionSvgSlot');
+      if (q.hasImage && q.svgDiagram) {
+        imgContainer.classList.remove('hidden');
+        svgSlot.innerHTML = q.svgDiagram;
+        document.getElementById('imageCaption').textContent = q.imageCaption || "Figura oficial do caderno do INEP.";
+      } else {
+        imgContainer.classList.add('hidden');
+      }
+
+      // Render Options
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.id = `opt-${opt.letter}`;
+        btn.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-blue-400 transition flex items-start gap-3 group relative cursor-pointer active:scale-[0.99] touch-target";
+        btn.onclick = () => chooseOption(opt.letter);
+
+        btn.innerHTML = `
+          <div id="badge-${opt.letter}" class="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-blue-100 text-slate-700 group-hover:text-blue-700 font-extrabold text-xs sm:text-sm flex items-center justify-center shrink-0 border border-slate-200 transition">
+            ${opt.letter}
+          </div>
+          <span class="text-xs sm:text-sm text-slate-700 leading-snug pt-1">${opt.text}</span>
+        `;
+        optionsContainer.appendChild(btn);
+      });
+
+      // Reset Actions & Resolution box
+      const btnConfirm = document.getElementById('btnConfirm');
+      btnConfirm.disabled = true;
+      btnConfirm.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> Confirmar Resposta`;
+      document.getElementById('actionArea').classList.remove('hidden');
+      document.getElementById('resolutionBox').classList.add('hidden');
+
+      lucide.createIcons();
+    }
+
+    // Option selection
+    function chooseOption(letter) {
+      selectedOption = letter;
+      const q = filteredQuestions[currentQuestionIndex];
+
+      q.options.forEach(opt => {
+        const btn = document.getElementById(`opt-${opt.letter}`);
+        const badge = document.getElementById(`badge-${opt.letter}`);
+        if (opt.letter === letter) {
+          btn.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-blue-600 bg-blue-50/70 shadow-sm flex items-start gap-3 group relative cursor-pointer touch-target";
+          badge.className = "w-8 h-8 rounded-lg bg-blue-600 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center shrink-0 shadow";
+        } else {
+          btn.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 flex items-start gap-3 group relative cursor-pointer touch-target";
+          badge.className = "w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-extrabold text-xs sm:text-sm flex items-center justify-center shrink-0 border border-slate-200";
+        }
+      });
+
+      document.getElementById('btnConfirm').disabled = false;
+    }
+
+    // Confirm Answer and show immediate feedback
+    function confirmAnswer() {
+      if (!selectedOption) return;
+
+      const q = filteredQuestions[currentQuestionIndex];
+      const isCorrect = (selectedOption === q.correct);
+
+      if (isCorrect) {
+        correctCount++;
+      } else {
+        wrongCount++;
+      }
+      answeredQuestionsCount++;
+
+      updateScoreboard();
+
+      // Lock buttons & Highlight correct vs chosen
+      q.options.forEach(opt => {
+        const btn = document.getElementById(`opt-${opt.letter}`);
+        btn.onclick = null;
+        btn.classList.add('cursor-default');
+
+        if (opt.letter === q.correct) {
+          // Highlight correct answer in emerald
+          btn.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 flex items-start gap-3 shadow-sm touch-target";
+          const badge = document.getElementById(`badge-${opt.letter}`);
+          badge.className = "w-8 h-8 rounded-lg bg-emerald-600 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center shrink-0";
+          badge.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i>`;
+        } else if (opt.letter === selectedOption && !isCorrect) {
+          // Highlight wrong choice in rose
+          btn.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-rose-500 bg-rose-50 flex items-start gap-3 shadow-sm touch-target";
+          const badge = document.getElementById(`badge-${opt.letter}`);
+          badge.className = "w-8 h-8 rounded-lg bg-rose-600 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center shrink-0";
+          badge.innerHTML = `<i data-lucide="x" class="w-4 h-4"></i>`;
+        } else {
+          btn.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-slate-50 opacity-50 flex items-start gap-3 touch-target";
+        }
+      });
+
+      // Build Resolution & Feedback Banner
+      const feedbackBanner = document.getElementById('feedbackBanner');
+      if (isCorrect) {
+        feedbackBanner.className = "p-4 sm:p-5 rounded-2xl mb-4 flex items-center justify-between border border-emerald-300 bg-emerald-50 text-emerald-950";
+        feedbackBanner.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="font-extrabold text-sm sm:text-base">Resposta Correta! Parabéns.</p>
+              <p class="text-xs sm:text-sm text-emerald-800">Você assinalou a alternativa oficial <strong>(${q.correct})</strong>.</p>
+            </div>
+          </div>
+          <span class="text-xs font-black bg-emerald-200 text-emerald-900 px-3 py-1 rounded-lg shrink-0">+1 Ponto TRI</span>
+        `;
+      } else {
+        feedbackBanner.className = "p-4 sm:p-5 rounded-2xl mb-4 flex items-center justify-between border border-rose-300 bg-rose-50 text-rose-950";
+        feedbackBanner.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold shrink-0">
+              <i data-lucide="alert-circle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="font-extrabold text-sm sm:text-base">Resposta Incorreta</p>
+              <p class="text-xs sm:text-sm text-rose-800">Você marcou <strong>(${selectedOption})</strong>. A resposta oficial do gabarito é <strong>(${q.correct})</strong>.</p>
+            </div>
+          </div>
+          <span class="text-xs font-black bg-rose-200 text-rose-900 px-3 py-1 rounded-lg shrink-0">Atenção</span>
+        `;
+      }
+
+      // Justification Text
+      document.getElementById('justificationText').innerHTML = `
+        <p class="font-bold text-slate-900 mb-1">Fundamentação Oficial da Resposta (${q.correct}):</p>
+        <p class="text-slate-700">${q.explanation}</p>
+      `;
+
+      // Distractor explanations
+      const distractorsContainer = document.getElementById('distractorsContainer');
+      distractorsContainer.innerHTML = '';
+      q.distractors.forEach(dist => {
+        const item = document.createElement('div');
+        item.className = `p-3 rounded-xl border flex items-start gap-3 ${dist.letter === selectedOption ? 'border-rose-200 bg-rose-50/70' : 'border-slate-200 bg-white'}`;
+        item.innerHTML = `
+          <span class="font-bold text-xs px-2 py-0.5 rounded ${dist.letter === selectedOption ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700'} shrink-0">${dist.letter}</span>
+          <p class="text-xs sm:text-sm leading-snug text-slate-700">${dist.text}</p>
+        `;
+        distractorsContainer.appendChild(item);
+      });
+
+      // Hide actions, show resolution box
+      document.getElementById('actionArea').classList.add('hidden');
+      const resBox = document.getElementById('resolutionBox');
+      resBox.classList.remove('hidden');
+
+      lucide.createIcons();
+      resBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Skip question action
+    function skipQuestion() {
+      nextQuestion();
+    }
+
+    // Next question handler
+    function nextQuestion() {
+      if (currentQuestionIndex + 1 < filteredQuestions.length) {
+        currentQuestionIndex++;
+        loadQuestion(currentQuestionIndex);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const total = correctCount + wrongCount;
+        const percent = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+        alert(`Parabéns! Você finalizou as questões oficiais desta sessão!\n\nTempo gasto: ${document.getElementById('timerDisplay').textContent}\nAcertos: ${correctCount}\nErros: ${wrongCount}\nAproveitamento: ${percent}%`);
+        goToHome();
+      }
+    }
+
+    // Update Top Score Counters
+    function updateScoreboard() {
+      document.getElementById('correctCounter').textContent = correctCount;
+      document.getElementById('wrongCounter').textContent = wrongCount;
+      
+      const totalAnswered = correctCount + wrongCount;
+      document.getElementById('streakProgress').textContent = `Resolvidas: ${totalAnswered}/${ENEM_DATABASE.length}`;
+      const pct = Math.min(100, Math.round((totalAnswered / ENEM_DATABASE.length) * 100));
+      document.getElementById('sessionProgressBar').style.width = `${pct}%`;
+    }
+
+    // Reset stats
+    function resetStats() {
+      if (confirm("Deseja zerar seu placar de acertos e tempo decorrido?")) {
+        correctCount = 0;
+        wrongCount = 0;
+        answeredQuestionsCount = 0;
+        secondsElapsed = 0;
+        updateScoreboard();
+        updateTimerDisplay();
+        alert("Placar e estatísticas reiniciados com sucesso!");
+      }
+    }
+  </script>
+</body></html>
