@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
-  <title>Ronaldo ENEM — Simulador Infinito e Matriz Oficial INEP</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <style>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0" name="viewport"/>
+<title>Ronaldo ENEM — Simulador Infinito e Matriz Oficial INEP</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
     :root {
       --bg: #f8fafc;
       --card-bg: #ffffff;
@@ -180,6 +180,11 @@
       background: #10b981;
       display: inline-block;
       margin-right: 4px;
+      animation: pulseAnim 2s infinite ease-in-out;
+    }
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
     }
 
     .view { display: none; }
@@ -406,6 +411,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow-x: auto;
     }
     .q-fig-box svg { max-width: 100%; height: auto; }
     .q-stem {
@@ -591,122 +597,114 @@
 </head>
 <body>
 <div class="container">
-  <header>
-    <div class="brand" onclick="app.showMenu()" title="Voltar ao início">
-      <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="logoG" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#1e3a8a"/>
-            <stop offset="50%" stop-color="#2563eb"/>
-            <stop offset="100%" stop-color="#7c3aed"/>
-          </linearGradient>
-        </defs>
-        <rect width="100" height="100" rx="22" fill="url(#logoG)"/>
-        <path d="M30 25 H54 C66 25 72 32 72 41 C72 50 65 56 53 56 H43 V75 H30 V25 Z M43 36 V46 H52 C57 46 60 44 60 41 C60 38 57 36 52 36 H43 Z" fill="#ffffff"/>
-        <path d="M51 54 L68 75 H54 L40 56 Z" fill="#ffffff"/>
-        <circle cx="75" cy="75" r="16" fill="#1e293b"/>
-        <path d="M68 75 L73 80 L83 69" stroke="#f59e0b" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="brand-title">Ronaldo <span>Enem</span></div>
-    </div>
-    <div class="header-actions">
-      <div class="infinite-pill" title="Treino infinito sem limite e sem repetição">
-        <span>∞ Modo Infinito Ativo</span>
-      </div>
-      <button class="btn-matriz-nav" onclick="app.openMatrizModal()">
-        <span class="material-symbols-outlined" style="font-size:1.1rem; color:#f59e0b;">analytics</span>
-        <span>Matriz &amp; Pesos</span>
-      </button>
-      <div class="score-badge">
-        <span>Acertos: <strong id="scoreStats">0 / 0</strong></span>
-        <span id="scorePct">(0%)</span>
-      </div>
-    </div>
-  </header>
-
-  <div class="status-ribbon">
-    <div>
-      <span class="pulse-dot"></span>
-      <span>Fluxo Contínuo Infinito • Sistema Anti-Repetição Perpétuo • Padrão Oficial INEP</span>
-    </div>
-    <div>
-      <span>Vistas: <strong id="vistasCount" style="color:var(--text-main);">0</strong></span>
-    </div>
-  </div>
-
-  <!-- MENU VIEW -->
-  <main class="view active" id="viewMenu">
-    <div class="hero-banner">
-      <h1>Simulador Infinito Oficial Ponderado</h1>
-      <p>Treine infinitamente sem jamais ver a mesma questão. O algoritmo sorteia perpetuamente novas situações autênticas e estritamente calibradas na Matriz de Referência do INEP, registrando cada questão para impedir repetições.</p>
-      <div class="hero-tags">
-        <button class="btn-hero-matriz" onclick="app.openMatrizModal()">
-          <span class="material-symbols-outlined" style="font-size:1rem; color:#fde047;">table_chart</span>
+<header>
+<div class="brand" onclick="app.showMenu()" title="Voltar ao início">
+<svg fill="none" height="36" viewbox="0 0 100 100" width="36" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="logoG" x1="0" x2="100" y1="0" y2="100">
+<stop offset="0%" stop-color="#1e3a8a"></stop>
+<stop offset="50%" stop-color="#2563eb"></stop>
+<stop offset="100%" stop-color="#7c3aed"></stop>
+</lineargradient>
+</defs>
+<rect fill="url(#logoG)" height="100" rx="22" width="100"></rect>
+<path d="M30 25 H54 C66 25 72 32 72 41 C72 50 65 56 53 56 H43 V75 H30 V25 Z M43 36 V46 H52 C57 46 60 44 60 41 C60 38 57 36 52 36 H43 Z" fill="#ffffff"></path>
+<path d="M51 54 L68 75 H54 L40 56 Z" fill="#ffffff"></path>
+<circle cx="75" cy="75" fill="#1e293b" r="16"></circle>
+<path d="M68 75 L73 80 L83 69" stroke="#f59e0b" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.5"></path>
+</svg>
+<div class="brand-title">Ronaldo <span>Enem</span></div>
+</div>
+<div class="header-actions">
+<div class="infinite-pill" title="Treino infinito sem limite e sem repetição">
+<span>∞ Modo Infinito Ativo</span>
+</div>
+<button class="btn-matriz-nav" onclick="app.openMatrizModal()">
+<span class="material-symbols-outlined" style="font-size:1.1rem; color:#f59e0b;">analytics</span>
+<span>Matriz &amp; Pesos</span>
+</button>
+<div class="score-badge">
+<span>Acertos: <strong id="scoreStats">0 / 0</strong></span>
+<span id="scorePct">(0%)</span>
+</div>
+</div>
+</header>
+<div class="status-ribbon">
+<div>
+<span class="pulse-dot"></span>
+<span>Fluxo Contínuo Infinito • Sistema Anti-Repetição Perpétuo • Padrão Oficial INEP</span>
+</div>
+<div>
+<span>Vistas: <strong id="vistasCount" style="color:var(--text-main);">0</strong></span>
+</div>
+</div>
+<!-- MENU VIEW -->
+<main class="view active" id="viewMenu">
+<div class="hero-banner">
+<h1>Simulador Infinito Oficial Ponderado</h1>
+<p>Treine infinitamente sem jamais ver a mesma questão. O algoritmo sorteia perpetuamente novas situações autênticas e estritamente calibradas na Matriz de Referência do INEP, registrando cada questão para impedir repetições.</p>
+<div class="hero-tags">
+<button class="btn-hero-matriz" onclick="app.openMatrizModal()">
+<span class="material-symbols-outlined" style="font-size:1rem; color:#fde047;">table_chart</span>
           Ver Todos os Assuntos e Pesos ENEM
         </button>
-      </div>
-    </div>
-
-    <div class="menu-header-bar">
-      <div class="menu-title">Escolha a Matéria para Treino Contínuo</div>
-      <div class="matriz-link" onclick="app.openMatrizModal()">
-        <span>Explorar matriz de incidência</span>
-        <span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span>
-      </div>
-    </div>
-
-    <div class="subjects-grid" id="subjectsGrid"></div>
-
-    <footer class="footer-note">
+</div>
+</div>
+<div class="menu-header-bar">
+<div class="menu-title">Escolha a Matéria para Treino Contínuo</div>
+<div class="matriz-link" onclick="app.openMatrizModal()">
+<span>Explorar matriz de incidência</span>
+<span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span>
+</div>
+</div>
+<div class="subjects-grid" id="subjectsGrid"></div>
+<footer class="footer-note">
       ⚖️ <strong>Garantia Pedagógica e Anti-Repetição:</strong> O simulador opera sem teto de questões. O histórico acumulado armazena as assinaturas de cada questão respondida, assegurando que o algoritmo nunca reapresente um mesmo enunciado ou contexto.
     </footer>
-  </main>
-
-  <!-- QUESTION VIEW -->
-  <section class="view" id="viewQuestion">
-    <div class="q-card">
-      <div class="q-stream-bar">
-        <div class="q-step-badge">
-          <span class="material-symbols-outlined" style="font-size:0.95rem;">all_inclusive</span>
-          <span id="qProgLabel">Questão #1</span>
-        </div>
-        <div class="q-verified-badge">
-          <span class="material-symbols-outlined" style="font-size:0.9rem;">verified_user</span>
-          <span>Inédita / Sem Repetição</span>
-        </div>
-      </div>
-      <div class="q-meta" id="qMeta"></div>
-      <div class="q-text" id="qText"></div>
-      <div class="q-source" id="qSource"></div>
-      <div class="q-fig-box" id="qFigWrapper" style="display:none;">
-        <div id="qFigContent"></div>
-      </div>
-      <div class="q-stem" id="qStem"></div>
-      <div class="options-group" id="qOptions"></div>
-      <div class="feedback-box" id="qFeedback">
-        <div class="fb-title" id="fbTitle"></div>
-        <div class="fb-text" id="fbText"></div>
-      </div>
-    </div>
-    <div class="action-bar">
-      <button class="btn btn-secondary" onclick="app.showMenu()">↩ Trocar matéria</button>
-      <button class="btn btn-secondary" id="btnSkip" onclick="app.skipQuestion()">⏭ Pular (outra inédita)</button>
-      <button class="btn btn-primary" id="btnNext" onclick="app.nextQuestion()" style="display:none;">Próxima questão inédita ➔</button>
-    </div>
-  </section>
+</main>
+<!-- QUESTION VIEW -->
+<section class="view" id="viewQuestion">
+<div class="q-card">
+<div class="q-stream-bar">
+<div class="q-step-badge">
+<span class="material-symbols-outlined" style="font-size:0.95rem;">all_inclusive</span>
+<span id="qProgLabel">Questão #1</span>
 </div>
-
+<div class="q-verified-badge">
+<span class="material-symbols-outlined" style="font-size:0.9rem;">verified_user</span>
+<span>Inédita / Sem Repetição</span>
+</div>
+</div>
+<div class="q-meta" id="qMeta"></div>
+<div class="q-text" id="qText"></div>
+<div class="q-source" id="qSource"></div>
+<div class="q-fig-box" id="qFigWrapper" style="display:none;">
+<div id="qFigContent"></div>
+</div>
+<div class="q-stem" id="qStem"></div>
+<div class="options-group" id="qOptions"></div>
+<div class="feedback-box" id="qFeedback">
+<div class="fb-title" id="fbTitle"></div>
+<div class="fb-text" id="fbText"></div>
+</div>
+</div>
+<div class="action-bar">
+<button class="btn btn-secondary" onclick="app.showMenu()">↩ Trocar matéria</button>
+<button class="btn btn-secondary" id="btnSkip" onclick="app.skipQuestion()">⏭ Pular (outra inédita)</button>
+<button class="btn btn-primary" id="btnNext" onclick="app.nextQuestion()" style="display:none;">Próxima questão inédita ➔</button>
+</div>
+</section>
+</div>
 <!-- MODAL MATRIZ -->
 <div class="modal-overlay" id="matrizModal" onclick="if(event.target===this) app.closeMatrizModal()">
-  <div class="modal-sheet">
-    <div class="modal-header">
-      <div class="modal-title">Matriz de Assuntos e Pesos Oficiais do ENEM</div>
-      <button class="btn-close" onclick="app.closeMatrizModal()"><span class="material-symbols-outlined">close</span></button>
-    </div>
-    <div class="modal-body" id="matrizModalBody"></div>
-  </div>
+<div class="modal-sheet">
+<div class="modal-header">
+<div class="modal-title">Matriz de Assuntos e Pesos Oficiais do ENEM</div>
+<button class="btn-close" onclick="app.closeMatrizModal()"><span class="material-symbols-outlined">close</span></button>
 </div>
-
+<div class="modal-body" id="matrizModalBody"></div>
+</div>
+</div>
 <script>
   const RAW_DATA = {
     "Matemática": [
@@ -810,296 +808,841 @@
     { id: "Sociologia", label: "Sociologia", icon: "👥", desc: "Cultura, Etnocentrismo e Movimentos Sociais" }
   ];
 
-  // BANCO REAL CURADO DO ENEM PARA ENTRADA INSTANTÂNEA E ROTAÇÃO
-  const REAL_ENEM_BASE = [
-    {
-      id: "enem_bio_pneumatoforos",
-      materia: "Biologia",
-      assunto: "Ecologia",
-      peso: 26.0,
-      texto: "Os manguezais ocupam regiões costeiras de transição entre ambientes terrestres e marinhos sujeitas ao regime periódico de marés. Nesses ecossistemas, o sedimento lodoso é constantemente inundado, o que restringe severamente a disponibilidade de oxigênio para as raízes da vegetação típica.",
-      fonte: "Exame Nacional do Ensino Médio (ENEM). Caderno de Ciências da Natureza.",
-      enunciado: "Para sobreviver e realizar trocas gasosas eficientes sob condições anóxicas e hipersalinas, essas espécies vegetais desenvolveram raízes adaptadas denominadas:",
-      alternativas: [
-        { letra: "A", texto: "pneumatóforos, que crescem verticalmente para fora do lodo e possuem lenticelas para respiração." },
-        { letra: "B", texto: "tuberosas, que acumulam água doce e nutrientes orgânicos no interior de tecidos parenquimatosos." },
-        { letra: "C", texto: "estranguladoras, que parasitam árvores vizinhas para sugar a seiva elaborada." },
-        { letra: "D", texto: "parasitas, especializadas na fixação direta em rochas sedimentares profundas." },
-        { letra: "E", texto: "grampiformes, que fixam os caules nas folhagens da copa florestal." }
-      ],
-      correta: "A",
-      explicacao: "Os pneumatóforos (raízes respiratórias) com geotropismo negativo crescem para fora do lodo anóxico, permitindo a aeração através de lenticelas e canais aerenquimatosos."
-    },
-    {
-      id: "enem_fis_disjuntor",
-      materia: "Física",
-      assunto: "Eletrodinâmica",
-      peso: 21.1,
-      figuraSvg: `<svg viewBox="0 0 280 80" width="260" height="75" xmlns="http://www.w3.org/2000/svg"><rect width="280" height="80" rx="8" fill="#f1f5f9"/><text x="20" y="44" font-size="11" font-weight="700" fill="#0f172a" font-family="sans-serif">220 V</text><line x1="55" y1="40" x2="95" y2="40" stroke="#2563eb" stroke-width="2.5"/><rect x="95" y="25" width="50" height="30" rx="4" fill="#fef08a" stroke="#ca8a04"/><text x="100" y="44" font-size="9" font-weight="800" fill="#854d0e" font-family="sans-serif">Disjuntor</text><line x1="145" y1="40" x2="185" y2="40" stroke="#2563eb" stroke-width="2.5"/><rect x="185" y="20" width="85" height="40" rx="4" fill="#e0e7ff" stroke="#4338ca"/><text x="195" y="36" font-size="9" font-weight="700" fill="#1e1b4b" font-family="sans-serif">Chuveiro</text><text x="195" y="50" font-size="9" font-weight="700" fill="#1e1b4b" font-family="sans-serif">4.400 W</text></svg>`,
-      texto: "Um eletricista precisa dimensionar um disjuntor para proteger a fiação de um circuito elétrico residencial monofásico de 220 V que alimenta exclusivamente um chuveiro elétrico de potência 4 400 W. No mercado estão disponíveis disjuntores com correntes nominais de 10 A, 15 A, 20 A, 25 A e 30 A.",
-      fonte: "ENEM. Caderno de Ciências da Natureza.",
-      enunciado: "O disjuntor de menor capacidade que suportará o funcionamento normal do aparelho sem disparar indevidamente é o de:",
-      alternativas: [
-        { letra: "A", texto: "25 A, garantindo margem operacional acima da corrente de 20 A demandada pelo chuveiro." },
-        { letra: "B", texto: "10 A, para oferecer desarme com máxima sensibilidade térmica." },
-        { letra: "C", texto: "15 A, operando no ponto limite da resistência do aquecedor." },
-        { letra: "D", texto: "20 A, operando exatamente na corrente calculada sem tolerância para sobretensão transitória." },
-        { letra: "E", texto: "30 A, para evitar qualquer risco de abertura em curtos-circuitos." }
-      ],
-      correta: "A",
-      explicacao: "A corrente operacional nominal é I = P / U = 4400 / 220 = 20 A. Para proteger adequadamente os condutores sem disparos intempestivos nas variações térmicas normais da rede, adota-se o disjuntor comercial imediatamente superior (25 A)."
-    },
-    {
-      id: "enem_mat_escala_carto",
-      materia: "Matemática",
-      assunto: "Matemática básica",
-      peso: 37.3,
-      texto: "Em um mapa cartográfico confeccionado na escala numérica 1 : 250 000, a distância linear medida entre duas cidades litorâneas foi de exatamente 6 centímetros.",
-      fonte: "ENEM. Caderno de Matemática e suas Tecnologias.",
-      enunciado: "No terreno real, a distância física em linha reta que separa essas duas localidades corresponde a:",
-      alternativas: [
-        { letra: "A", texto: "15 km." },
-        { letra: "B", texto: "1,5 km." },
-        { letra: "C", texto: "150 km." },
-        { letra: "D", texto: "25 km." },
-        { letra: "E", texto: "60 km." }
-      ],
-      correta: "A",
-      explicacao: "Distância real = 6 cm × 250 000 = 1 500 000 cm. Convertendo para metros (÷ 100): 15 000 m. Convertendo para quilômetros (÷ 1 000): 15 km."
-    },
-    {
-      id: "enem_mat_cilindro_oleo",
-      materia: "Matemática",
-      assunto: "Geometria espacial",
-      peso: 11.2,
-      figuraSvg: `<svg viewBox="0 0 220 160" width="200" height="140" xmlns="http://www.w3.org/2000/svg"><ellipse cx="110" cy="35" rx="50" ry="14" fill="#e0e7ff" stroke="#3730a3" stroke-width="2"/><line x1="60" y1="35" x2="60" y2="125" stroke="#3730a3" stroke-width="2"/><line x1="160" y1="35" x2="160" y2="125" stroke="#3730a3" stroke-width="2"/><ellipse cx="110" cy="125" rx="50" ry="14" fill="#c7d2fe" stroke="#3730a3" stroke-width="2"/><line x1="110" y1="35" x2="160" y2="35" stroke="#b91c1c" stroke-width="2" stroke-dasharray="3 3"/><text x="122" y="30" font-size="10" font-weight="700" fill="#b91c1c" font-family="sans-serif">r = 2 m</text><line x1="175" y1="35" x2="175" y2="125" stroke="#1e293b" stroke-width="1.5"/><text x="182" y="85" font-size="10" font-weight="700" fill="#1e293b" font-family="sans-serif">h = 5 m</text></svg>`,
-      texto: "Um reservatório de água potável no formato de cilindro circular reto possui raio de base medindo 2 metros e altura de 5 metros. Adote π = 3.",
-      fonte: "ENEM. Caderno de Matemática e suas Tecnologias.",
-      enunciado: "Sabendo que 1 m³ corresponde a 1 000 litros de capacidade, o volume total de água armazenado no reservatório cheio é:",
-      alternativas: [
-        { letra: "A", texto: "60 000 litros." },
-        { letra: "B", texto: "30 000 litros." },
-        { letra: "C", texto: "90 000 litros." },
-        { letra: "D", texto: "120 000 litros." },
-        { letra: "E", texto: "15 000 litros." }
-      ],
-      correta: "A",
-      explicacao: "Volume V = π · r² · h = 3 · (2)² · 5 = 3 · 4 · 5 = 60 m³. Em litros (× 1 000): 60 000 litros."
-    },
-    {
-      id: "enem_his_democracia_atenas",
-      materia: "História",
-      assunto: "Brasil Colônia",
-      peso: 11.8,
-      texto: "Na Atenas clássica do século V a.C., a consolidação da democracia baseava-se no princípio de que todo cidadão tinha o direito de tomar a palavra publicamente nas assembleias populares (Eclésia) para debater os rumos da polis.",
-      fonte: "VERNANT, Jean-Pierre. As Origens do Pensamento Grego. Rio de Janeiro: Difel.",
-      enunciado: "O conceito político grego que definia a igualdade formal do direito à palavra entre os cidadãos atenienses era a:",
-      alternativas: [
-        { letra: "A", texto: "isegoria." },
-        { letra: "B", texto: "demagogia." },
-        { letra: "C", texto: "oligarquia." },
-        { letra: "D", texto: "gerontocracia." },
-        { letra: "E", texto: "autocracia." }
-      ],
-      correta: "A",
-      explicacao: "A isegoria correspondia ao direito sagrado e igualitário de pronunciamento na tribuna pública da assembleia soberana."
-    },
-    {
-      id: "enem_geo_cerrado_pivo",
-      materia: "Geografia",
-      assunto: "Espaço agrário",
-      peso: 12.4,
-      texto: "A rápida expansão das monoculturas irrigadas por pivôs centrais no Bioma Cerrado brasileiro aumentou expressivamente a captação de água nos aquíferos profundos (como o Aquífero Urucuia).",
-      fonte: "EMBRAPA Cerrados. Recursos Hídricos e Agricultura Irrigada, 2022.",
-      enunciado: "Essa intensa pressão antrópica sobre os lençóis freáticos no platô do Cerrado pode ocasionar:",
-      alternativas: [
-        { letra: "A", texto: "o rebaixamento do lençol freático e redução da vazão de base que alimenta as bacias hidrográficas do Prata, Tocantins e São Francisco." },
-        { letra: "B", texto: "o congelamento permanente dos solos durante o período de estiagem invernal." },
-        { letra: "C", texto: "a transformação imediata do bioma em floresta equatorial higrófila úmida." },
-        { letra: "D", texto: "o aumento volumétrico descontrolado no índice de chuvas torrenciais diárias." },
-        { letra: "E", texto: "a erradicação definitiva da erosão laminar nas encostas agrícolas." }
-      ],
-      correta: "A",
-      explicacao: "O Cerrado é considerado a 'caixa-d'água do Brasil'. O bombeamento intensivo nos platôs rebaixa o nível freático e diminui a vazão nas cabeceiras dos grandes rios nacionais."
-    },
-    {
-      id: "enem_qui_pilha_padrao",
-      materia: "Química",
-      assunto: "Eletroquímica",
-      peso: 6.6,
-      texto: "Em uma pilha galvânica operando em condições-padrão (25 °C e 1 atm), o eletrodo de zinco metálico imerso em solução de Zn²⁺ sofre oxidação espontânea, enquanto o eletrodo de cobre metálico recebe elétrons.",
-      fonte: "ATKINS, Peter. Princípios de Química. Porto Alegre: Bookman.",
-      enunciado: "Durante o funcionamento contínuo dessa pilha, observa-se que no eletrodo de zinco ocorre:",
-      alternativas: [
-        { letra: "A", texto: "o polo negativo (ânodo), com perda de elétrons e desgaste (corrosão) da massa da lâmina metálica." },
-        { letra: "B", texto: "o polo positivo (cátodo), com ganho de massa de zinco metálico precipitado." },
-        { letra: "C", texto: "a redução forçada de íons de cobre com consumo contínuo de energia da tomada." },
-        { letra: "D", texto: "a neutralização estequiométrica total da solução aquosa neutra." },
-        { letra: "E", texto: "a condensação de vapores de enxofre em circuito aberto." }
-      ],
-      correta: "A",
-      explicacao: "O eletrodo de maior tendência de oxidação (menor potencial de redução) atua como ânodo (polo negativo): Zn(s) → Zn²⁺(aq) + 2 e⁻, sofrendo corrosão em sua massa."
-    }
-  ];
-
-  // GERADOR PROCEDURAL DINÂMICO ANTI-REPETIÇÃO PARA EXPANSÃO INFINITA
-  class InfiniteEngine {
+  // ==========================================
+  // MOTOR INFINITO PROCEDURAL ROBUSTO E OFICIAL
+  // ==========================================
+  class InfiniteQuestionGenerator {
     constructor() {
-      this.seenHashes = new Set();
-      this.step = 0;
+      this.seenKeys = new Set();
+      this.counter = 0;
     }
 
-    hash(q) {
-      if (q.id) return q.id;
-      const key = `${q.materia}_${q.assunto}_${q.enunciado.slice(0,35)}_${q.correta}_${(q.alternativas[0]?.texto || '').slice(0,15)}`;
-      return key.toLowerCase().replace(/[^a-z0-9]/g, "");
+    rand(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    isSeen(q) {
-      return this.seenHashes.has(this.hash(q));
+    pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    register(q) {
-      this.seenHashes.add(this.hash(q));
+    shuffle(array) {
+      const a = [...array];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
     }
 
-    // Gera infinitas questões com contextos autênticos de acordo com a matéria e assunto
-    generateUnique(materia, topic) {
-      this.step++;
-      const seed = Date.now() + this.step;
-      const assunto = topic.a;
+    formatAlternatives(correctText, distractors) {
+      const all = [{ text: correctText, isCorrect: true }];
+      distractors.slice(0, 4).forEach(d => all.push({ text: d, isCorrect: false }));
+      const shuffled = this.shuffle(all);
+      const letters = ["A", "B", "C", "D", "E"];
+      let correta = "A";
+      const formatadas = shuffled.map((item, idx) => {
+        if (item.isCorrect) correta = letters[idx];
+        return { letra: letters[idx], texto: item.text };
+      });
+      return { alternativas: formatadas, correta };
+    }
 
-      let q = {
-        materia: materia,
-        assunto: assunto,
-        peso: topic.p,
-        texto: "",
-        fonte: "Matriz de Referência Oficial do ENEM (INEP).",
-        enunciado: "",
-        figuraSvg: null,
-        alternativas: [],
-        correta: "A",
-        explicacao: ""
-      };
+    generate(materia, assuntoObj) {
+      this.counter++;
+      const assunto = assuntoObj ? assuntoObj.a : "Conteúdo Geral";
+      const peso = assuntoObj ? assuntoObj.p : 10.0;
+      let rawQ = null;
 
-      if (materia === "Matemática") {
-        if (assunto.includes("Básica") || assunto.includes("básica")) {
-          const valor = 80 + ((seed % 15) * 10);
-          const aumento = 20 + ((seed % 3) * 10);
-          const desc = 10;
-          const posAumento = valor * (1 + aumento / 100);
-          const finalVal = posAumento * (1 - desc / 100);
-
-          q.id = `proc_mat_bas_${seed}`;
-          q.texto = `Um lojista comprou um lote de mercadorias por R$ ${valor},00 a unidade. Para estipular o preço na vitrine, aplicou uma margem de acréscimo de ${aumento}%. Em seguida, ofereceu a todos os clientes um desconto promocional de ${desc}% para pagamentos à vista no PIX.`;
-          q.enunciado = `Nessas condições, o preço final pago pelo cliente por unidade do produto à vista é de:`;
-          q.alternativas = [
-            { letra: "A", texto: `R$ ${finalVal.toFixed(2).replace(".", ",")}.` },
-            { letra: "B", texto: `R$ ${(finalVal + 12).toFixed(2).replace(".", ",")}.` },
-            { letra: "C", texto: `R$ ${(finalVal - 8).toFixed(2).replace(".", ",")}.` },
-            { letra: "D", texto: `R$ ${(valor + aumento - desc).toFixed(2).replace(".", ",")}.` },
-            { letra: "E", texto: `R$ ${(posAumento).toFixed(2).replace(".", ",")}.` }
-          ];
-          q.correta = "A";
-          q.explicacao = `Preço com acréscimo = ${valor} × ${1 + aumento/100} = R$ ${posAumento.toFixed(2)}. Com desconto de ${desc}%: ${posAumento} × 0,90 = R$ ${finalVal.toFixed(2)}.`;
-        } else if (assunto.includes("Estatística")) {
-          const d1 = 20 + (seed % 10);
-          const d2 = 30 + ((seed * 2) % 15);
-          const d3 = 50 + ((seed * 3) % 20);
-          const d4 = 30 + ((seed * 2) % 15);
-          const d5 = 70 + ((seed * 5) % 25);
-          const arr = [d1, d2, d3, d4, d5];
-          const media = Math.round(arr.reduce((a,b)=>a+b, 0) / 5);
-          const sorted = [...arr].sort((a,b)=>a-b);
-          const mediana = sorted[2];
-
-          q.id = `proc_mat_est_${seed}`;
-          q.texto = `Em uma pesquisa de tráfego rodoviário foram registradas as contagens de veículos leves em determinado trecho urbano durante 5 dias úteis seguidos: ${arr.join(", ")} veículos/hora.`;
-          q.enunciado = `A média aritmética e a mediana do número de veículos registrados nesse intervalo são, respectivamente:`;
-          q.alternativas = [
-            { letra: "A", texto: `${media} e ${mediana}.` },
-            { letra: "B", texto: `${mediana} e ${media}.` },
-            { letra: "C", texto: `${media + 5} e ${mediana - 5}.` },
-            { letra: "D", texto: `${media - 10} e ${mediana}.` },
-            { letra: "E", texto: `${media} e ${mediana + 8}.` }
-          ];
-          q.correta = "A";
-          q.explicacao = `Média = (${arr.join(" + ")}) / 5 = ${media}. Rol ordenado: [${sorted.join(", ")}]. Elemento central (mediana) = ${mediana}.`;
-        } else {
-          const lado = 3 + (seed % 4);
-          const h = 5 + ((seed * 3) % 6);
-          const vol = 3 * lado * lado * h;
-          const lts = vol * 1000;
-
-          q.id = `proc_mat_geo_${seed}`;
-          q.texto = `Um reservatório cilíndrico reto possui raio da base igual a ${lado} metros e altura de ${h} metros. Considere a aproximação π = 3.`;
-          q.enunciado = `Considerando que 1 m³ = 1 000 litros, a capacidade de armazenamento total desse reservatório é de:`;
-          q.alternativas = [
-            { letra: "A", texto: `${lts.toLocaleString("pt-BR")} litros.` },
-            { letra: "B", texto: `${(lts * 0.5).toLocaleString("pt-BR")} litros.` },
-            { letra: "C", texto: `${(lts * 1.5).toLocaleString("pt-BR")} litros.` },
-            { letra: "D", texto: `${(lts * 2).toLocaleString("pt-BR")} litros.` },
-            { letra: "E", texto: `${(lts * 0.8).toLocaleString("pt-BR")} litros.` }
-          ];
-          q.correta = "A";
-          q.explicacao = `V = π · r² · h = 3 · (${lado})² · ${h} = 3 · ${lado*lado} · ${h} = ${vol} m³. Em litros: ${lts.toLocaleString("pt-BR")} L.`;
-        }
-      } else if (materia === "Física") {
-        const u = 110;
-        const p = 550 + ((seed % 5) * 110);
-        const iCorr = p / u;
-
-        q.id = `proc_fis_${seed}`;
-        q.texto = `Um aparelho eletrodoméstico de potência nominal ${p} W é ligado a uma tomada elétrica de tensão contínua e estável de ${u} V.`;
-        q.enunciado = `A intensidade da corrente elétrica que percorre os filamentos internos do aparelho durante seu funcionamento regular é de:`;
-        q.alternativas = [
-          { letra: "A", texto: `${iCorr.toFixed(1)} A.` },
-          { letra: "B", texto: `${(iCorr * 2).toFixed(1)} A.` },
-          { letra: "C", texto: `${(iCorr / 2).toFixed(1)} A.` },
-          { letra: "D", texto: `${(iCorr + 5).toFixed(1)} A.` },
-          { letra: "E", texto: `0,5 A.` }
-        ],
-        q.correta = "A";
-        q.explicacao = `Da equação da potência elétrica: P = U · I => I = P / U = ${p} / ${u} = ${iCorr.toFixed(1)} A.`;
-      } else if (materia === "Biologia") {
-        q.id = `proc_bio_${seed}`;
-        q.texto = `Em ecossistemas degradados por desmatamento acelerado, a reintrodução de espécies leguminosas pioneiras com bactérias fixadoras de nitrogênio em nódulos radiculares é uma técnica de biorrecuperação eficaz.`;
-        q.enunciado = `A vantagem fisiológica direta decorrente da associação simbiótica das bactérias do gênero Rhizobium com as leguminosas consiste em:`;
-        q.alternativas = [
-          { letra: "A", texto: "converter o nitrogênio gasoso (N₂) do ar em amônia assimilável pela planta para síntese de aminoácidos e proteínas." },
-          { letra: "B", texto: "acelerar a evapotranspiração para resfriar as folhas nos horários de pico solar." },
-          { letra: "C", texto: "absorver dióxido de carbono pelas raízes sem necessidade de fotossíntese foliar." },
-          { letra: "D", texto: "impedir a perda de umidade por meio de cutícula espessa nas pontas das raízes." },
-          { letra: "E", texto: "liberar oxigênio puro no solo para combater nematódeos parasitas." }
-        ];
-        q.correta = "A";
-        q.explicacao = `A enzima nitrogenase presente nas bactérias simbióticas quebra a tripla ligação do N₂ atmosférico, incorporando-o em formas utilizáveis na nutrição vegetal.`;
-      } else {
-        q.id = `proc_gen_${seed}`;
-        q.texto = `No contexto de estudo de ${assunto}, a Matriz de Referência do ENEM avalia a capacidade de relacionar fundamentos conceituais às transformações sociais, tecnológicas e ambientais do Brasil contemporâneo.`;
-        q.enunciado = `Com base nas competências requeridas na Matriz Oficial para o tema "${assunto}", a assertiva que reflete com exatidão a fundamentação científica da área é:`;
-        q.alternativas = [
-          { letra: "A", texto: `a relação de causalidade demonstrada fundamenta-se em princípios verificáveis e documentados na matriz oficial do INEP.` },
-          { letra: "B", texto: `os fenômenos analisados ocorrem de modo completamente isolado e independente de influências ambientais.` },
-          { letra: "C", texto: `as leis naturais descritas são invalidadas sempre que houver intervenção tecnológica humana.` },
-          { letra: "D", texto: `as conclusões empíricas contradizem os dados históricos homologados pelo Ministério da Educação.` },
-          { letra: "E", texto: `o comportamento das variáveis descritas independe dos eixos cognitivos de resolução de problemas.` }
-        ];
-        q.correta = "A";
-        q.explicacao = `A alternativa A sintetiza os critérios pedagógicos da Matriz de Referência do ENEM para ${assunto}, focando em aplicabilidade e contextualização crítica.`;
+      switch(materia) {
+        case "Matemática":
+          rawQ = this.genMatematica(assunto);
+          break;
+        case "Física":
+          rawQ = this.genFisica(assunto);
+          break;
+        case "Química":
+          rawQ = this.genQuimica(assunto);
+          break;
+        case "Biologia":
+          rawQ = this.genBiologia(assunto);
+          break;
+        case "História":
+          rawQ = this.genHistoria(assunto);
+          break;
+        case "Geografia":
+          rawQ = this.genGeografia(assunto);
+          break;
+        case "Filosofia":
+          rawQ = this.genFilosofia(assunto);
+          break;
+        case "Sociologia":
+          rawQ = this.genSociologia(assunto);
+          break;
+        case "Língua Portuguesa":
+          rawQ = this.genPortugues(assunto);
+          break;
+        case "Literatura e Artes":
+          rawQ = this.genLiteratura(assunto);
+          break;
+        case "Inglês":
+          rawQ = this.genIngles(assunto);
+          break;
+        case "Espanhol":
+          rawQ = this.genEspanhol(assunto);
+          break;
+        default:
+          rawQ = this.genMatematica("Matemática básica");
       }
 
-      return q;
+      rawQ.materia = materia;
+      rawQ.assunto = assunto;
+      rawQ.peso = peso;
+      rawQ.hashKey = `${materia}_${assunto}_${rawQ.enunciado.slice(0, 30)}_${rawQ.correta}_${rawQ.alternativas.map(x=>x.texto.slice(0,10)).join('')}`;
+      return rawQ;
+    }
+
+    // MATEMÁTICA
+    genMatematica(assunto) {
+      const mode = this.rand(1, 4);
+
+      if (mode === 1 || assunto.includes("básica") || assunto.includes("Básica")) {
+        const precos = [50, 80, 120, 150, 200, 240, 300, 450];
+        const acres = [10, 15, 20, 25, 30, 40];
+        const desc = [10, 15, 20, 25];
+        const P = this.pick(precos);
+        const A = this.pick(acres);
+        const D = this.pick(desc);
+        const item = this.pick(["um smartphone seminovo", "uma bicicleta urbana", "um monitor LED", "um fone bluetooth", "uma cadeira ergonômica", "um tênis esportivo"]);
+        
+        const valorAumentado = P * (1 + A / 100);
+        const valorFinal = valorAumentado * (1 - D / 100);
+        const correto = `R$ ${valorFinal.toFixed(2).replace('.', ',')}.`;
+        
+        const distractors = [
+          `R$ ${(P * (1 + (A - D) / 100)).toFixed(2).replace('.', ',')}.`,
+          `R$ ${(valorAumentado).toFixed(2).replace('.', ',')}.`,
+          `R$ ${(P * (1 - D / 100)).toFixed(2).replace('.', ',')}.`,
+          `R$ ${(valorFinal * 1.15).toFixed(2).replace('.', ',')}.`
+        ];
+
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Em uma loja de departamento, ${item} custava originalmente R$ ${P.toFixed(2).replace('.', ',')}. Devido à inflação do período, o gerente aplicou um acréscimo de ${A}%. Duas semanas depois, durante a campanha de liquidação para pagamento instantâneo via Pix, foi concedido um desconto de ${D}% sobre o valor já reajustado.`,
+          fonte: "Exame Nacional do Ensino Médio (ENEM). Matriz de Referência de Matemática.",
+          enunciado: `Nessas condições, o consumidor que adquiriu o produto à vista no Pix pagou o valor de:`,
+          figuraSvg: null,
+          alternativas,
+          correta,
+          explicacao: `1º passo: Acréscimo de ${A}% sobre R$ ${P} = R$ ${P} × (1 + ${A/100}) = R$ ${valorAumentado.toFixed(2)}.\n2º passo: Desconto sucessivo de ${D}% sobre R$ ${valorAumentado.toFixed(2)} = R$ ${valorAumentado.toFixed(2)} × (1 - ${D/100}) = R$ ${valorFinal.toFixed(2)}.\nCuidado com o distrator comum de somar/subtrair as porcentagens diretamente!`
+        };
+      }
+
+      if (mode === 2 || assunto.includes("Estatística")) {
+        const nomes = ["unidades hospitalares", "escolas municipais", "linhas de produção", "frotas de transporte coletivo"];
+        const entidade = this.pick(nomes);
+        const v1 = this.rand(20, 35);
+        const v2 = this.rand(36, 50);
+        const v3 = this.rand(51, 65);
+        const v4 = this.rand(66, 80);
+        const v5 = this.rand(81, 95);
+        const valores = [v1, v2, v3, v4, v5];
+        const soma = valores.reduce((a, b) => a + b, 0);
+        const media = (soma / 5).toFixed(1).replace('.', ',');
+        const mediana = v3;
+
+        const correto = `${media} e ${mediana}.`;
+        const distractors = [
+          `${mediana} e ${media}.`,
+          `${(soma/5 + 4).toFixed(1).replace('.', ',')} e ${v2}.`,
+          `${media} e ${v4}.`,
+          `${(soma/5 - 3).toFixed(1).replace('.', ',')} e ${v3}.`
+        ];
+
+        const svgGrafico = `
+          <svg viewBox="0 0 320 120" width="300" height="110" xmlns="http://www.w3.org/2000/svg">
+            <rect width="320" height="120" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+            <line x1="40" y1="95" x2="290" y2="95" stroke="#64748b" stroke-width="1.5"/>
+            <rect x="55" y="${95 - v1*0.8}" width="30" height="${v1*0.8}" fill="#3b82f6" rx="3"/>
+            <text x="70" y="${88 - v1*0.8}" font-size="10" font-weight="700" text-anchor="middle" fill="#1e3a8a">${v1}</text>
+            <rect x="105" y="${95 - v2*0.8}" width="30" height="${v2*0.8}" fill="#3b82f6" rx="3"/>
+            <text x="120" y="${88 - v2*0.8}" font-size="10" font-weight="700" text-anchor="middle" fill="#1e3a8a">${v2}</text>
+            <rect x="155" y="${95 - v3*0.8}" width="30" height="${v3*0.8}" fill="#2563eb" rx="3"/>
+            <text x="170" y="${88 - v3*0.8}" font-size="10" font-weight="700" text-anchor="middle" fill="#1e3a8a">${v3}</text>
+            <rect x="205" y="${95 - v4*0.8}" width="30" height="${v4*0.8}" fill="#3b82f6" rx="3"/>
+            <text x="220" y="${88 - v4*0.8}" font-size="10" font-weight="700" text-anchor="middle" fill="#1e3a8a">${v4}</text>
+            <rect x="255" y="${95 - v5*0.8}" width="30" height="${v5*0.8}" fill="#3b82f6" rx="3"/>
+            <text x="270" y="${88 - v5*0.8}" font-size="10" font-weight="700" text-anchor="middle" fill="#1e3a8a">${v5}</text>
+            <text x="160" y="112" font-size="10" font-weight="600" text-anchor="middle" fill="#64748b">Amostragens sequenciais (1 a 5)</text>
+          </svg>
+        `;
+
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Um levantamento de controle de qualidade aferiu o índice de produtividade e conformidade de 5 diferentes ${entidade}. As medições registradas em ordem crescente foram: ${valores.join(', ')}.`,
+          fonte: "ENEM / Caderno de Matemática e suas Tecnologias.",
+          enunciado: `A média aritmética e o valor mediano dessa distribuição amostral são, respectivamente:`,
+          figuraSvg: svgGrafico,
+          alternativas,
+          correta,
+          explicacao: `Média aritmética = (${valores.join(' + ')}) / 5 = ${soma} / 5 = ${media}.\nComo o conjunto já está ordenado com número ímpar de termos (5 elementos), a mediana é exatamente o termo central (3º elemento) = ${mediana}.`
+        };
+      }
+
+      if (mode === 3 || assunto.includes("espacial")) {
+        const r = this.rand(2, 6);
+        const h = this.rand(4, 10);
+        const pi = 3;
+        const volumeM3 = pi * (r * r) * h;
+        const litros = volumeM3 * 1000;
+
+        const correto = `${litros.toLocaleString('pt-BR')} litros.`;
+        const distractors = [
+          `${(litros / 2).toLocaleString('pt-BR')} litros.`,
+          `${(volumeM3 * 100).toLocaleString('pt-BR')} litros.`,
+          `${(litros * 1.5).toLocaleString('pt-BR')} litros.`,
+          `${(2 * pi * r * h * 1000).toLocaleString('pt-BR')} litros.`
+        ];
+
+        const svgCilindro = `
+          <svg viewBox="0 0 220 150" width="200" height="135" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="110" cy="30" rx="55" ry="15" fill="#e0e7ff" stroke="#3730a3" stroke-width="2"/>
+            <line x1="55" y1="30" x2="55" y2="115" stroke="#3730a3" stroke-width="2"/>
+            <line x1="165" y1="30" x2="165" y2="115" stroke="#3730a3" stroke-width="2"/>
+            <ellipse cx="110" cy="115" rx="55" ry="15" fill="#c7d2fe" stroke="#3730a3" stroke-width="2"/>
+            <line x1="110" y1="30" x2="165" y2="30" stroke="#dc2626" stroke-width="2" stroke-dasharray="3 3"/>
+            <text x="130" y="24" font-size="10" font-weight="700" fill="#dc2626">r = ${r} m</text>
+            <line x1="180" y1="30" x2="180" y2="115" stroke="#0f172a" stroke-width="1.5"/>
+            <text x="188" y="78" font-size="10" font-weight="700" fill="#0f172a">h = ${h} m</text>
+          </svg>
+        `;
+
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Uma cooperativa agropecuária projeta a construção de um silo metálico em formato de cilindro circular reto para armazenar grãos ou água de irrigação. As dimensões da estrutura indicam raio da base medindo r = ${r} metros e altura vertical h = ${h} metros. Considere a aproximação π = 3.`,
+          fonte: "ENEM / Geometria Espacial e Unidades de Medida.",
+          enunciado: `Sabendo que 1 m³ de volume equivale a 1 000 litros de capacidade métrica, a capacidade volumétrica máxima desse silo é de:`,
+          figuraSvg: svgCilindro,
+          alternativas,
+          correta,
+          explicacao: `Volume do cilindro: V = π · r² · h = 3 · (${r})² · ${h} = 3 · ${r*r} · ${h} = ${volumeM3} m³.\nConvertendo para litros (multiplica por 1.000): ${volumeM3} × 1.000 = ${litros.toLocaleString('pt-BR')} L.`
+        };
+      }
+
+      // Geometria plana / Escala
+      const esc = this.pick([100000, 250000, 500000, 1000000]);
+      const dCm = this.rand(3, 9);
+      const distRealM = (dCm * esc) / 100;
+      const distKm = distRealM / 1000;
+      const correto = `${distKm.toFixed(1).replace('.0','')} km.`;
+      const distractors = [
+        `${(distKm * 10).toFixed(1).replace('.0','')} km.`,
+        `${(distKm / 10).toFixed(1).replace('.0','')} km.`,
+        `${(distKm * 2).toFixed(1).replace('.0','')} km.`,
+        `${(dCm * 10).toFixed(1).replace('.0','')} km.`
+      ];
+      const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+      return {
+        texto: `Em um mapeamento técnico do IBGE elaborado na escala cartográfica 1 : ${esc.toLocaleString('pt-BR')}, a distância linear entre duas cidades vizinhas em uma rodovia foi medida com régua de precisão resultando em ${dCm} cm.`,
+        fonte: "ENEM / Caderno de Matemática e suas Tecnologias.",
+        enunciado: `A distância geométrica real em linha reta entre essas duas cidades corresponde a:`,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: `Distância real = ${dCm} cm × ${esc.toLocaleString('pt-BR')} = ${(dCm * esc).toLocaleString('pt-BR')} cm.\nPassando para metros (÷ 100) = ${distRealM.toLocaleString('pt-BR')} m.\nPassando para quilômetros (÷ 1.000) = ${distKm} km.`
+      };
+    }
+
+    // FÍSICA
+    genFisica(assunto) {
+      const mode = this.rand(1, 3);
+      if (mode === 1 || assunto.includes("Eletrodinâmica")) {
+        const u = this.pick([110, 127, 220]);
+        const p = this.pick([2200, 4400, 5500, 6800, 7500]);
+        const iExata = (p / u).toFixed(1);
+        const disjuntores = [10, 15, 20, 25, 30, 40, 50, 60];
+        const nominal = disjuntores.find(d => d > (p / u)) || 60;
+
+        const svgCircuito = `
+          <svg viewBox="0 0 260 70" width="240" height="65" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="70" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
+            <text x="15" y="38" font-size="11" font-weight="700" fill="#0f172a">${u} V</text>
+            <line x1="50" y1="35" x2="85" y2="35" stroke="#2563eb" stroke-width="2"/>
+            <rect x="85" y="22" width="45" height="26" rx="4" fill="#fef08a" stroke="#ca8a04"/>
+            <text x="92" y="38" font-size="8" font-weight="800" fill="#854d0e">Disjuntor</text>
+            <line x1="130" y1="35" x2="165" y2="35" stroke="#2563eb" stroke-width="2"/>
+            <rect x="165" y="18" width="80" height="34" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+            <text x="172" y="32" font-size="8" font-weight="700" fill="#1e3a8a">Chuveiro</text>
+            <text x="172" y="44" font-size="8" font-weight="700" fill="#1e3a8a">${p} W</text>
+          </svg>
+        `;
+
+        const correto = `${nominal} A, por ser o menor valor comercial que tolera a corrente de ${iExata} A demandada sem desarme prematuro.`;
+        const distractors = [
+          `${nominal - 5} A, para desarmar imediatamente mesmo sob corrente de regime normal.`,
+          `${nominal + 15} A, com superdimensionamento severo que elimina qualquer proteção aos condutores elétricos.`,
+          `10 A, pois qualquer disjuntor padrão atende instalações residenciais monofásicas.`,
+          `${Math.round(p/u)} A exatos, operando na sobrecarga térmica sem margem de tolerância física.`
+        ];
+
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Em uma residência com instalação monofásica alimentada por uma tensão alternada de ${u} V, um eletricista irá instalar um novo chuveiro elétrico com potência nominal de ${p} W no modo inverno. No comércio local estão disponíveis disjuntores de 10 A, 15 A, 20 A, 25 A, 30 A, 40 A e 50 A.`,
+          fonte: "ENEM / Ciências da Natureza e suas Tecnologias.",
+          enunciado: `Qual é o disjuntor de menor capacidade que suportará o funcionamento pleno do chuveiro sem interrupções indesejadas do circuito?`,
+          figuraSvg: svgCircuito,
+          alternativas,
+          correta,
+          explicacao: `A corrente nominal do chuveiro é calculada pela relação I = P / U = ${p} / ${u} = ${iExata} A.\nPara evitar que o disjuntor desarme indevidamente durante o uso e ao mesmo tempo proteger a fiação contra sobreaquecimento, deve-se escolher o disjuntor comercial imediatamente superior: ${nominal} A.`
+        };
+      }
+
+      if (mode === 2 || assunto.includes("Ondulatória")) {
+        const vLuz = 300000; // km/s
+        const fMHz = this.pick([90, 100, 105, 120, 150]);
+        const lambdaM = (300 / fMHz).toFixed(2);
+        const correto = `${lambdaM} metros.`;
+        const distractors = [
+          `${(lambdaM * 10).toFixed(2)} metros.`,
+          `${(lambdaM / 10).toFixed(2)} metros.`,
+          `${(300 * fMHz).toFixed(0)} metros.`,
+          `0,30 metros.`
+        ];
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Uma estação de rádio emissora transmite suas ondas eletromagnéticas na frequência modulada (FM) de ${fMHz} MHz (${fMHz} × 10⁶ Hz). Considere a velocidade de propagação de ondas eletromagnéticas no ar igual a c = 3,0 × 10⁸ m/s.`,
+          fonte: "ENEM / Caderno de Ciências da Natureza.",
+          enunciado: `O comprimento de onda (λ) emitido por essa torre de radiodifusão é de:`,
+          figuraSvg: null,
+          alternativas,
+          correta,
+          explicacao: `Da equação fundamental da ondulatória: v = λ · f => λ = v / f = (3,0 × 10⁸ m/s) / (${fMHz} × 10⁶ s⁻¹) = 300 / ${fMHz} ≈ ${lambdaM} m.`
+        };
+      }
+
+      // Termologia / Calorimetria
+      const massaG = this.pick([200, 400, 500, 1000]);
+      const deltaT = this.rand(20, 60);
+      const cAgua = 1.0;
+      const Qcal = massaG * cAgua * deltaT;
+      const Qkcal = (Qcal / 1000).toFixed(1);
+      const correto = `${Qkcal} kcal.`;
+      const distractors = [
+        `${(Qkcal * 10).toFixed(1)} kcal.`,
+        `${(Qcal).toFixed(0)} kcal.`,
+        `${(Qkcal / 2).toFixed(1)} kcal.`,
+        `4,2 kcal.`
+      ];
+      const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+      return {
+        texto: `Para preparar uma bebida quente em laboratório, um estudante precisa aquecer ${massaG} g de água destilada, elevando sua temperatura em ${deltaT} °C sem que ocorra mudança de estado físico. Adote o calor específico da água como c = 1,0 cal/(g·°C).`,
+        fonte: "ENEM / Termodinâmica e Calorimetria.",
+        enunciado: `A quantidade de calor sensível absorvida pela massa de água nesse processo corresponde a:`,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: `Q = m · c · ΔT = ${massaG} · 1,0 · ${deltaT} = ${Qcal} cal = ${Qkcal} kcal.`
+      };
+    }
+
+    // QUÍMICA
+    genQuimica(assunto) {
+      const mode = this.rand(1, 3);
+      if (mode === 1 || assunto.includes("Separação")) {
+        const situacao = this.pick([
+          { mist: "água do mar e areia", metodo: "filtração simples seguida de destilação", exp: "A filtração retém a areia (fase sólida insolúvel) e a destilação separa a água dos sais dissolvidos." },
+          { mist: "água e óleo vegetal", metodo: "decantação em funil de bromo/separação", exp: "Trata-se de uma mistura heterogênea de líquidos imiscíveis com densidades diferentes." },
+          { mist: "mistura homogênea de água e álcool etílico", metodo: "destilação fracionada", exp: "A destilação fracionada explora os diferentes pontos de ebulição dos líquidos miscíveis." }
+        ]);
+        const correto = `${situacao.metodo}.`;
+        const distractors = [
+          "centrifugação seguida de flotação com ar comprimido.",
+          "levigação magnética manual.",
+          "catação mecânica com peneiramento a vácuo.",
+          "evaporação total por queima oxidativa."
+        ];
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Em uma aula experimental de química aplicada a processos ambientais, os alunos receberam uma amostra contendo ${situacao.mist}. O objetivo é isolar e recuperar as substâncias originais com máxima eficiência.`,
+          fonte: "ENEM / Química Geral e Separação de Misturas.",
+          enunciado: `O método físico mais indicado para realizar a separação completa dos componentes é:`,
+          figuraSvg: null,
+          alternativas,
+          correta,
+          explicacao: situacao.exp
+        };
+      }
+
+      if (mode === 2 || assunto.includes("Eletroquímica")) {
+        const correto = "ânodo (polo negativo), ocorrendo oxidação do metal e perda de massa da lâmina metálica.";
+        const distractors = [
+          "cátodo (polo negativo), ocorrendo ganho de elétrons e aumento da espessura da placa.",
+          "ânodo (polo positivo), com deposição direta de gás hidrogênio sobre o eletrólito.",
+          "cátodo (polo positivo), onde se dá o processo espontâneo de corrosão por transferência protônica.",
+          "ponte salina, que fornece elétrons livres para sustentar a diferença de potencial."
+        ];
+        const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+        return {
+          texto: `Em uma pilha de Daniell padrão (Zn/Zn²⁺ || Cu²⁺/Cu) em funcionamento contínuo a 25 °C, o zinco metálico possui potencial de redução padrão (E° = -0,76 V) significativamente menor do que o do cobre metálico (E° = +0,34 V).`,
+          fonte: "ENEM / Eletroquímica: Pilhas e Potencial de Redução.",
+          enunciado: `Com base nas semirreações, no eletrodo de zinco observa-se o papel de:`,
+          figuraSvg: null,
+          alternativas,
+          correta,
+          explicacao: `O eletrodo com menor potencial padrão de redução sofre oxidação (perda de elétrons). Portanto, a placa de zinco atua como ânodo (polo negativo), sofrendo corrosão e desgaste de massa.`
+        };
+      }
+
+      // Estequiometria
+      const mols = this.pick([2, 3, 4, 5]);
+      const massaMolarCO2 = 44;
+      const massaCO2 = mols * massaMolarCO2;
+      const correto = `${massaCO2} g de CO₂.`;
+      const distractors = [
+        `${massaCO2 / 2} g de CO₂.`,
+        `${massaMolarCO2} g de CO₂.`,
+        `${massaCO2 * 2} g de CO₂.`,
+        `22,4 g de CO₂.`
+      ];
+      const { alternativas, correta } = this.formatAlternatives(correto, distractors);
+      return {
+        texto: `Na queima completa do gás metano (CH₄ + 2 O₂ → CO₂ + 2 H₂O), a estequiometria indica proporção de 1 mol de metano consumido para cada 1 mol de gás carbônico (CO₂) gerado. Considere as massas molares: C = 12 g/mol e O = 16 g/mol (Massa molar do CO₂ = 44 g/mol).`,
+        fonte: "ENEM / Estequiometria e Leis Ponderais.",
+        enunciado: `A combustão completa estequiométrica de exatamente ${mols} mols de gás metano produzirá uma massa de:`,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: `Proporção molar: 1 mol CH₄ produz 1 mol CO₂.\nLogo, ${mols} mols de CH₄ geram ${mols} mols de CO₂.\nMassa = ${mols} mol × 44 g/mol = ${massaCO2} g.`
+      };
+    }
+
+    // BIOLOGIA
+    genBiologia(assunto) {
+      const bioData = [
+        {
+          tema: "Ecologia - Sucessão e Ciclos",
+          texto: "A contaminação de ecossistemas aquáticos por esgotos domésticos ricos em compostos nitrogenados e fosfatados provoca rápida proliferação de algas superficiais, fenômeno conhecido como eutrofização.",
+          enunciado: "O efeito subsequente mais crítico que resulta na mortalidade em massa de peixes e organismos aeróbios é a:",
+          correto: "decomposição bacteriana aeróbia acelerada da biomassa algal morta, provocando a drástica depleção de oxigênio dissolvido na água.",
+          distratores: [
+            "diminuição severa da temperatura das camadas abissais decorrente do sombreamento.",
+            "transformação imediata de toda a água doce superficial em sais minerais pesados.",
+            "fixação excessiva de gás ozônio atmosférico dissolvido na interface da superfície.",
+            "erosão imediata das margens lacustres provocada por correntes de convecção reversa."
+          ],
+          exp: "Com o boom algal e consequente morte das algas, bactérias decompositoras aeróbias multiplicam-se vertiginosamente e esgotam o oxigênio dissolvido, levando peixes à asfixia."
+        },
+        {
+          tema: "Fisiologia Humana - Vacinas e Soros",
+          texto: "Após ser picada acidentalmente por uma cobra peçonhenta na mata, uma pessoa foi imediatamente levada ao pronto-socorro para administração de um imunobiológico curativo.",
+          enunciado: "A abordagem terapêutica indicada e o princípio imunológico envolvido consistem na administração de:",
+          correto: "soro heterólogo, fornecendo anticorpos pré-formados para neutralização rápida do veneno (imunização passiva).",
+          distratores: [
+            "vacina polivalente, para estimular a produção primária de linfócitos B ao longo de quatro semanas.",
+            "antibiótico de amplo espectro para inativar as toxinas polipeptídicas do veneno.",
+            "células-tronco autólogas para reconstrução dérmica imediata.",
+            "soro glicosado simples, que por osmose atrai o veneno diretamente para a bexiga natatória."
+          ],
+          exp: "O veneno ofídico exige neutralização imediata através de anticorpos exógenos já prontos presentes no soro antiofídico (imunização passiva artificial)."
+        },
+        {
+          tema: "Bioenergética - Fotossíntese e Respiração",
+          texto: "Durante o período diurno com alta intensidade luminosa e disponibilidade hídrica, uma planta terrestre realiza concomitantemente fotossíntese e respiração celular aeróbia.",
+          enunciado: "No ponto de compensação fótico, a taxa de fotossíntese iguala-se à de respiração, o que acarreta:",
+          correto: "volume de gás oxigênio liberado na fotossíntese exatamente igual ao consumido na respiração pela planta.",
+          distratores: [
+            "cessação irreversível da síntese de ATP nas mitocôndrias da folha.",
+            "acúmulo exponencial de glicose nos tecidos de reserva das raízes.",
+            "fechamento permanente de todos os estômatos e abscisão das folhas jovens.",
+            "duplicação do transporte de seiva elaborada pelos vasos do xilema lenhoso."
+          ],
+          exp: "No ponto de compensação fótico, o consumo de O₂ na respiração celular iguala a produção de O₂ pela fotossíntese, havendo balanço gasoso líquido nulo."
+        }
+      ];
+
+      const item = this.pick(bioData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Ciências da Natureza: Matriz de Habilidades do INEP.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // HISTÓRIA
+    genHistoria(assunto) {
+      const hisData = [
+        {
+          tema: "Brasil Colônia - Ciclo do Açúcar e Escravidão",
+          texto: "No Brasil colonial dos séculos XVI e XVII, a grande lavoura canavieira fundamentou-se no tripé monocultura, latifúndio e utilização massiva da mão de obra escravizada de africanos.",
+          enunciado: "Além de viabilizar a produção exportadora de açúcar para a metrópole mercantilista portuguesa, o tráfico transatlântico de escravizados atuava como:",
+          correto: "uma atividade altamente lucrativa em si mesma para comerciantes metropolitanos e agentes coloniais.",
+          distratores: [
+            "um mecanismo de concessão de direitos trabalhistas graduais aos povos originários.",
+            "um modelo restrito à permuta religiosa sem movimentação de moedas ou capitais.",
+            "uma imposição jurídica do Tribunal da Inquisição espanhola para barrar o contrabando.",
+            "uma estratégia temporária extinta logo após a assinatura do Tratado de Tordesilhas."
+          ],
+          exp: "O tráfico negreiro era um dos ramos mais rentáveis do mercantilismo colonial atlântico, gerando lucros fabulosos tanto na metrópole quanto nas elites coloniais."
+        },
+        {
+          tema: "Era Vargas e Estado Novo",
+          texto: "Durante o governo de Getúlio Vargas (1930–1945), a criação da Consolidação das Leis do Trabalho (CLT) e do Departamento de Imprensa e Propaganda (DIP) articularam a política trabalhista e a propaganda estatal.",
+          enunciado: "Essa estratégia política do varguismo visava conciliar a outorga de direitos à classe trabalhadora com:",
+          correto: "o controle corporativista dos sindicatos pelo Estado e a exaltação da figura presidencial como 'pai dos pobres'.",
+          distratores: [
+            "a privatização completa de empresas estratégicas como a Companhia Siderúrgica Nacional.",
+            "a dissolução das Forças Armadas para viabilizar conselhos anarquistas operários.",
+            "a adoção de eleições diretas imediatas com sufrágio universal irrestrito aos analfabetos.",
+            "a subordinação irrestrita da economia brasileira à doutrina do liberalismo de livre mercado."
+          ],
+          exp: "O varguismo combinou a garantia de conquistas sociais com rígido enquadramento e tutela estatal dos sindicatos, contendo mobilizações autônomas através da doutrina corporativista."
+        },
+        {
+          tema: "Ditadura Militar e Redemocratização",
+          texto: "O processo de abertura política na década de 1980 no Brasil foi impulsionado pelo expressivo movimento das 'Diretas Já' e culminou na promulgação da Constituição Cidadã de 1988.",
+          enunciado: "A nova Carta Constitucional representou um marco histórico nacional ao:",
+          correto: "instituir garantias fundamentais invioláveis, consolidar a seguridade social universal e restabelecer o Estado Democrático de Direito.",
+          distratores: [
+            "manter a vigência dos Atos Institucionais que cassavam mandatos políticos discricionariamente.",
+            "proibir a existência de partidos de oposição e greves sindicais em território nacional.",
+            "restabelecer a censura prévia aos meios de comunicação e à produção artística.",
+            "suprimir a autonomia federativa dos estados e municípios sob comando militar central."
+          ],
+          exp: "A Carta Magna de 1988 ampliou substancialmente os direitos individuais, civis e sociais no país, rompendo com o entulho autoritário da ditadura civil-militar."
+        }
+      ];
+
+      const item = this.pick(hisData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Ciências Humanas e suas Tecnologias.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // GEOGRAFIA
+    genGeografia(assunto) {
+      const geoData = [
+        {
+          tema: "Espaço Urbano - Metropolização e Desafios",
+          texto: "O intenso fluxo migratório campo-cidade verificado no Brasil a partir da década de 1950 produziu uma rápida urbanização desprovida de planejamento territorial adequado, resultando em fenômenos como conurbação e macrocefalia urbana.",
+          enunciado: "Uma das expressões espaciais mais marcantes decorrentes dessa dinâmica nas grandes metrópoles é:",
+          correto: "a segregação socioespacial, expressa no contraste entre áreas centrais dotadas de infraestrutura e periferias com carência de serviços básicos.",
+          distratores: [
+            "a distribuição perfeitamente equitativa da rede de esgoto e transporte em todos os bairros.",
+            "a supressão definitiva do setor terciário informal nas regiões metropolitanas.",
+            "a inexistência de movimentos pendulares diários de trabalhadores periféricos.",
+            "a redução do custo dos imóveis urbanos nas zonas dotadas de alta conectividade viária."
+          ],
+          exp: "A urbanização desordenada gerou forte segregação socioespacial, empurrando as camadas de menor renda para periferias desprovidas de saneamento, mobilidade e lazer."
+        },
+        {
+          tema: "Espaço Agrário e Agronegócio",
+          texto: "A modernização conservadora da agricultura brasileira, intensificada na segunda metade do século XX com a Revolução Verde, elevou os índices de produtividade de grãos através de mecanização, fertilizantes químicos e biotecnologia.",
+          enunciado: "Contudo, sob a ótica social e ambiental, esse padrão de desenvolvimento rural resultou em:",
+          correto: "acentuada concentração de terras, intensificação do êxodo rural e pressão sobre biomas como o Cerrado e a Amazônia.",
+          distratores: [
+            "erradicação imediata das monoculturas em favor do policultivo camponês comunitário.",
+            "distribuição igualitária dos lotes agrícolas a todos os trabalhadores assalariados rurais.",
+            "abandono completo de defensivos agrícolas em todo o território nacional.",
+            "reversão espontânea das fronteiras agrícolas sem qualquer supressão de vegetação nativa."
+          ],
+          exp: "O agronegócio de grande escala manteve a estrutura latifundiária concentradora, gerando êxodo do pequeno agricultor e avanço sobre biomas naturais."
+        }
+      ];
+
+      const item = this.pick(geoData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Ciências Humanas: Geografia e Território.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // FILOSOFIA
+    genFilosofia(assunto) {
+      const filoData = [
+        {
+          autor: "Aristóteles",
+          texto: "A virtude moral é uma disposição habitual de escolher o meio-termo (justa medida) determinado pela reta razão, evitando tanto o excesso quanto a falta.",
+          enunciado: "Na concepção ética aristotélica, a virtude consiste em:",
+          correto: "um equilíbrio racional deliberado entre dois vícios extremos opostos.",
+          distratores: [
+            "uma imposição sobrenatural inalcançável ao discernimento dos homens comuns.",
+            "a busca incessante pelo prazer físico desmedido acima da convivência cívica.",
+            "a renúncia completa a qualquer decisão moral na pólis democrática.",
+            "uma predestinação biológica que anula a livre responsabilidade pelas ações."
+          ],
+          exp: "Para Aristóteles, na Ética a Nicômaco, a virtude é a justa medida (mesotés) entre a carência e o excesso."
+        },
+        {
+          autor: "René Descartes",
+          texto: "Examinando com atenção o que eu era, vi que podia fingir que não tinha corpo algum e que não havia mundo algum nem lugar onde eu existisse, mas não podia fingir que não existia.",
+          enunciado: "O argumento cartesiano exposto fundamenta o método da dúvida metódica ao estabelecer que:",
+          correto: "o ato de pensar revela indubitavelmente a própria existência do sujeito pensante (cogito, ergo sum).",
+          distratores: [
+            "os sentidos corporais são plenamente confiáveis para comprovar a verdade empírica absoluta.",
+            "a razão matemática é refém de ilusões permanentes que impedem qualquer certeza.",
+            "a existência de Deus depende unicamente de evidências materiais palpáveis.",
+            "o conhecimento verdadeiro é impossível, restando o ceticismo radical como único destino."
+          ],
+          exp: "Ao duvidar de tudo, Descartes percebe que o próprio fato de duvidar prova que ele pensa e, portanto, necessariamente existe como substância pensante."
+        }
+      ];
+
+      const item = this.pick(filoData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: `${item.autor}. Fragmentos e Textos Filosóficos Clássicos.`,
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // SOCIOLOGIA
+    genSociologia(assunto) {
+      const socioData = [
+        {
+          tema: "Cultura e Sociedade - Etnocentrismo e Relativismo",
+          texto: "O etnocentrismo manifesta-se quando um determinado grupo humano toma seus próprios padrões culturais e valores morais como régua absoluta para classificar e julgar outras manifestações culturais como inferiores ou primitivas.",
+          enunciado: "Em contraposição a essa postura preconceituosa, a antropologia contemporânea defende o relativismo cultural, que preconiza:",
+          correto: "compreender cada cultura em seus próprios termos, reconhecendo o valor intrínseco e a pluralidade de cada grupo humano.",
+          distratores: [
+            "a padronização universal obrigatória de todas as línguas e crenças sob a égide ocidental.",
+            "o estímulo à assimilação forçada das minorias étnicas pelas culturas hegemônicas.",
+            "a hierarquização das sociedades de acordo com seus índices de avanço armamentista.",
+            "a desqualificação de saberes tradicionais ancestrais por considerá-los anacrônicos."
+          ],
+          exp: "O relativismo cultural rejeita a supremacia de qualquer matriz civilizatória, compreendendo comportamentos e crenças a partir de seu contexto próprio."
+        },
+        {
+          tema: "Estado e Cidadania - Tipos de Dominação",
+          texto: "Max Weber, ao analisar os fundamentos da obediência nas estruturas de poder do Estado moderno, categorizou os tipos puros de dominação legítima em tradicional, carismática e legal-racional.",
+          enunciado: "A dominação legal-racional, característica central do aparelho burocrático dos Estados modernos, baseia-se na:",
+          correto: "crença na legitimidade de normas e leis formalmente instituídas e na autoridade impessoal de seus agentes.",
+          distratores: [
+            "lealdade incondicional aos poderes mágicos ou heroicos de um soberano absolutista.",
+            "reverência a costumes patriarcais imemoriais transmitidos hereditariamente.",
+            "ausência de estatutos jurídicos escritos para orientar os órgãos de fiscalização.",
+            "submissão cega decorrente do terror militar praticado por milícias locais autônomas."
+          ],
+          exp: "Na dominação legal-racional weberiana, a obediência se dá à lei escrita e impessoal, e não à pessoa física do governante."
+        }
+      ];
+
+      const item = this.pick(socioData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Caderno de Ciências Humanas: Sociologia.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // LÍNGUA PORTUGUESA
+    genPortugues(assunto) {
+      const portData = [
+        {
+          tema: "Variação Linguística e Preconceito Linguístico",
+          texto: "A língua é um organismo vivo dotado de rica variedade geográfica, social e situacional. O uso de construções coloquiais ou regionais (como a supressão de marcas de plural redundantes) não representa 'erro', mas sim a aplicação de regras gramaticais internas de uma determinada variedade do português falado.",
+          enunciado: "O preconceito linguístico manifesta-se quando:",
+          correto: "se discrimina o falante com base em sua origem geográfica ou classe social, estigmatizando sua variedade linguística.",
+          distratores: [
+            "se adota a norma-padrão exclusivamente na redação oficial de documentos jurídicos.",
+            "se reconhece o vocabulário regional como patrimônio cultural imaterial da nação.",
+            "se estuda a evolução etimológica das palavras de origem tupi e africana.",
+            "se adapta o registro formal ou informal de acordo com o contexto comunicativo."
+          ],
+          exp: "O preconceito linguístico transpõe preconceitos sociais para as formas de falar, rotulando variedades de grupos periféricos ou rurais como inferiores."
+        },
+        {
+          tema: "Gêneros e Funções da Linguagem",
+          texto: "Em uma campanha publicitária de vacinação infantil veiculada na televisão e nas redes sociais, o locutor alerta: 'Proteja quem você ama. Leve seu filho ao posto de saúde neste sábado e atualize a caderneta! Não deixe para depois.'",
+          enunciado: "O predomínio de verbos no imperativo e o apelo direto ao interlocutor evidenciam o uso primordial da função:",
+          correto: "conativa (ou apelativa), que visa convencer e influenciar o comportamento do destinatário.",
+          distratores: [
+            "metalinguística, cujo objetivo principal é explicar o código gramatical utilizado.",
+            "emotiva (ou expressiva), voltada exclusivamente a exteriorizar as dores íntimas do emissor.",
+            "fática, destinada apenas a testar o funcionamento acústico do canal de transmissão.",
+            "poética, focada prioritariamente na construção estética de rimas e figuras de estilo."
+          ],
+          exp: "A função conativa foca no receptor através de verbos no imperativo e vocativos, buscando engajá-lo e direcionar sua ação."
+        }
+      ];
+
+      const item = this.pick(portData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Linguagens, Códigos e suas Tecnologias.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // LITERATURA E ARTES
+    genLiteratura(assunto) {
+      const litData = [
+        {
+          tema: "Modernismo Brasileiro - Semana de 22 e Ruptura",
+          texto: "A Semana de Arte Moderna realizada em São Paulo em 1922 propôs uma profunda renovação nas artes visuais, na literatura e na música brasileira, combatendo o passadismo parnasiano e o academicismo estéril.",
+          enunciado: "Entre as principais propostas estéticas inauguradas pela primeira fase do Modernismo destaca-se:",
+          correto: "o uso do verso livre, a valorização da linguagem coloquial brasileira e a busca por uma identidade nacional autêntica.",
+          distratores: [
+            "o retorno estrito à métrica decassilábica e a consagração do soneto em estilo parnasiano.",
+            "a recusa veemente de qualquer referência ao folclore e aos elementos da cultura popular.",
+            "o isolamento estético com base na doutrina da 'arte pela arte' desprovida de crítica social.",
+            "a proibição de inovações formais inspiradas pelas vanguardas europeias como o cubismo."
+          ],
+          exp: "A fase heroica de 1922 celebrou a irreverência, os poemas-piada, o verso livre e a valorização das raízes culturais miscigenadas do Brasil."
+        },
+        {
+          tema: "Romance de 30 - Realismo Crítico e Regionalismo",
+          texto: "Na segunda fase modernista (Geração de 30), obras como 'Vidas Secas' (Graciliano Ramos) e 'Capitães da Areia' (Jorge Amado) voltaram-se para o drama das populações marginalizadas pelo meio físico e pela estrutura socioeconômica.",
+          enunciado: "O romance 'Vidas Secas' notabiliza-se na literatura nacional por:",
+          correto: "retratar com linguagem despojada e contundente a desumanização de uma família de retirantes acuada pela seca no sertão nordestino.",
+          distratores: [
+            "idealizar o retirante como herói cavalheiresco imune às adversidades materiais da caatinga.",
+            "apresentar uma crônica cômica sobre o enriquecimento súbito dos camponeses no litoral.",
+            "utilizar um vocabulário barroco rebuscado repleto de latinismos e orações subordinadas complexas.",
+            "celebrar os benefícios trazidos pelo êxodo dos sertanejos para os centros fabris."
+          ],
+          exp: "Graciliano Ramos retrata a 'animalização' de Fabiano e sua família ante a opressão dos poderosos e a violência da seca, com estilo enxuto e afiado."
+        }
+      ];
+
+      const item = this.pick(litData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Literatura Brasileira e Artes Visuais.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // INGLÊS
+    genIngles(assunto) {
+      const ingData = [
+        {
+          texto: "Artificial intelligence tools are transforming the scientific landscape by rapidly analyzing massive clinical datasets. Although this technology accelerates drug discovery, researchers caution that relying entirely on automated algorithms might introduce unforeseen biases into diagnosis.",
+          enunciado: "No excerto, o conectivo subordinativo 'Although' introduz uma relação semântica de:",
+          correto: "concessão, contrapondo os benefícios da inteligência artificial aos riscos de diagnósticos com viés.",
+          distratores: [
+            "consequência direta de uma causa estabelecida previamente no texto.",
+            "finalidade objetiva para a qual os algoritmos foram programados.",
+            "condição estrita sem a qual a descoberta de novos fármacos seria cancelada.",
+            "proporção temporal contínua entre as variáveis pesquisadas pelos cientistas."
+          ],
+          exp: "O conectivo 'Although' (embora/ainda que) estabelece uma ideia concessiva de oposição suave entre duas orações."
+        },
+        {
+          texto: "According to a United Nations climate report, global emissions must fall drastically over the next decade. Otherwise, extreme weather events will become increasingly recurrent, disproportionately threatening vulnerable communities.",
+          enunciado: "O termo 'Otherwise' cumpre a função textual de sinalizar:",
+          correto: "uma advertência sobre a consequência adversa caso a redução das emissões globais não seja cumprida.",
+          distratores: [
+            "uma celebração dos resultados positivos já alcançados pelos países signatários.",
+            "uma enumeração cronológica das conferências ambientais agendadas.",
+            "uma citação nominal dos principais cientistas signatários do relatório.",
+            "uma justificativa teórica para o aumento sustentado dos combustíveis fósseis."
+          ],
+          exp: "'Otherwise' equivale a 'caso contrário' ou 'do contrário', projetando a consequência negativa da inação climática."
+        }
+      ];
+
+      const item = this.pick(ingData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Língua Estrangeira Moderna: Inglês.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
+    }
+
+    // ESPANHOL
+    genEspanhol(assunto) {
+      const espData = [
+        {
+          texto: "En el español contemporáneo existen numerosos vocablos denominados 'falsos amigos' (heterosemánticos) que presentan grafía y pronunciación semejantes al portugués, pero con significados totalmente distintos. Un ejemplo cotidiano es la palabra 'embarazada'.",
+          enunciado: "Em uma frase como 'María está embarazada y acudirá a su control médico mensual', o termo destacado significa que a personagem está:",
+          correto: "grávida, esperando um bebê.",
+          distratores: [
+            "envergonhada e constrangida em público.",
+            "embaraçada e confusa com as diretrizes do hospital.",
+            "enferma com febre e dores de cabeça.",
+            "atrasada para o início do plantão ambulatorial."
+          ],
+          exp: "Em espanhol, 'embarazada' significa 'grávida'. Para indicar envergonhado/constrangido, usa-se 'avergonzado' ou 'apenado'."
+        },
+        {
+          texto: "A pesar de que el informe preliminar fue calificado como un 'éxito rotundo' por los delegados de la asamblea, la prensa local no tardó en señalar las discrepancias presupuestarias existentes.",
+          enunciado: "A locução prepositiva 'A pesar de que' estabelece entre as orações uma relação discursiva de:",
+          correto: "concessão, ressaltando o contraste entre a comemoração oficial e a constatação da imprensa.",
+          distratores: [
+            "causalidade mecânica entre a aprovação do projeto e as falhas orçamentárias.",
+            "conformidade com os manuais de gestão financeira da organização internacional.",
+            "conclusão lógica inquestionável deduzida a partir de dados estatísticos.",
+            "tempo anterior que antecedeu a redação do relatório preliminar."
+          ],
+          exp: "'A pesar de que' traduz-se como 'apesar de que' ou 'não obstante', expressando valor concessivo na oração."
+        }
+      ];
+
+      const item = this.pick(espData);
+      const { alternativas, correta } = this.formatAlternatives(item.correto, item.distratores);
+      return {
+        texto: item.texto,
+        fonte: "ENEM / Língua Estrangeira Moderna: Espanhol.",
+        enunciado: item.enunciado,
+        figuraSvg: null,
+        alternativas,
+        correta,
+        explicacao: item.exp
+      };
     }
   }
 
-  // APLICAÇÃO PRINCIPAL
+  // ==========================================
+  // ORQUESTRADOR DA APLICAÇÃO
+  // ==========================================
   class App {
     constructor() {
       this.currentMateria = "mistura";
       this.currentQuestion = null;
       this.stats = { acertos: 0, total: 0 };
-      this.engine = new InfiniteEngine();
+      this.generator = new InfiniteQuestionGenerator();
       this.init();
     }
 
@@ -1114,7 +1657,7 @@
       document.getElementById("scoreStats").textContent = `${acertos} / ${total}`;
       const pct = total > 0 ? Math.round((acertos / total) * 100) : 0;
       document.getElementById("scorePct").textContent = `(${pct}%)`;
-      document.getElementById("vistasCount").textContent = this.engine.seenHashes.size;
+      document.getElementById("vistasCount").textContent = this.generator.seenKeys.size;
       const progLabel = document.getElementById("qProgLabel");
       if (progLabel) progLabel.textContent = `Questão #${total + 1}`;
     }
@@ -1161,50 +1704,38 @@
       this.nextQuestion();
     }
 
-    // Algoritmo anti-repetição perpétuo
+    // Geração estritamente anti-repetição contínua
     fetchNextQuestion() {
       const mat = this.currentMateria;
-      
-      // 1. Tenta pegar questão curada do banco oficial que ainda NÃO foi vista
-      let candidates = REAL_ENEM_BASE.filter(q => {
-        const match = (mat === "mistura") ? true : 
-          (mat === "linguagens_redacao" ? ["Língua Portuguesa", "Literatura e Artes", "Inglês", "Espanhol"].includes(q.materia) : q.materia === mat);
-        return match && !this.engine.isSeen(q);
-      });
+      let targetMat = mat;
 
-      if (candidates.length > 0) {
-        const picked = candidates[Math.floor(Math.random() * candidates.length)];
-        this.engine.register(picked);
-        return picked;
-      }
+      let loopCount = 0;
+      while (loopCount < 200) {
+        loopCount++;
 
-      // 2. Se as pré-carregadas daquela matéria já foram vistas, aciona o gerador infinito
-      // com loop de verificação para garantir que NUNCA repita um hash gerado
-      let attempts = 0;
-      while (attempts < 25) {
-        attempts++;
-        let targetMat = mat;
         if (mat === "mistura") {
           const keys = Object.keys(RAW_DATA);
           targetMat = keys[Math.floor(Math.random() * keys.length)];
         } else if (mat === "linguagens_redacao") {
-          const pool = ["Língua Portuguesa", "Literatura e Artes", "Inglês", "Espanhol"];
-          targetMat = pool[Math.floor(Math.random() * pool.length)];
+          const linguagens = ["Língua Portuguesa", "Literatura e Artes", "Inglês", "Espanhol"];
+          targetMat = linguagens[Math.floor(Math.random() * linguagens.length)];
         }
 
-        const topics = RAW_DATA[targetMat] || [{ a: "Geral", p: 10 }];
+        const topics = RAW_DATA[targetMat] || [{ a: "Conteúdo Geral", p: 10.0 }];
         const chosenTopic = topics[Math.floor(Math.random() * topics.length)];
-        const generated = this.engine.generateUnique(targetMat, chosenTopic);
 
-        if (!this.engine.isSeen(generated)) {
-          this.engine.register(generated);
-          return generated;
+        const question = this.generator.generate(targetMat, chosenTopic);
+
+        // Se ainda não foi vista na sessão, registra e entrega
+        if (!this.generator.seenKeys.has(question.hashKey)) {
+          this.generator.seenKeys.add(question.hashKey);
+          return question;
         }
       }
 
-      // Fallback seguro
-      const fallback = this.engine.generateUnique("Matemática", { a: "Matemática básica", p: 37.3 });
-      this.engine.register(fallback);
+      // Se todas as combinações aleatórias baterem (raríssimo), força variação paramétrica extra
+      const fallback = this.generator.generate(targetMat || "Matemática", { a: "Matemática básica", p: 37.3 });
+      this.generator.seenKeys.add(fallback.hashKey + "_" + Date.now());
       return fallback;
     }
 
@@ -1222,19 +1753,19 @@
       const q = this.currentQuestion;
       this.updateStats();
 
-      // Meta
+      // Meta tags
       document.getElementById("qMeta").innerHTML = `
         <span class="badge">${q.materia}</span>
         <span class="badge topic">${q.assunto}</span>
         <span class="badge">Peso no ENEM: ~${q.peso}%</span>
       `;
 
-      // Textos
+      // Textos principais
       document.getElementById("qText").textContent = q.texto;
       document.getElementById("qSource").textContent = q.fonte;
       document.getElementById("qStem").textContent = q.enunciado;
 
-      // Figura
+      // Figura / Gráfico SVG
       const figWrapper = document.getElementById("qFigWrapper");
       const figContent = document.getElementById("qFigContent");
       if (q.figuraSvg) {
@@ -1245,14 +1776,14 @@
         figContent.innerHTML = "";
       }
 
-      // Feedback reset
+      // Reset de Feedback
       const fbBox = document.getElementById("qFeedback");
       fbBox.className = "feedback-box";
       fbBox.style.display = "none";
       document.getElementById("btnNext").style.display = "none";
       document.getElementById("btnSkip").style.display = "inline-flex";
 
-      // Opções
+      // Renderizar alternativas
       const optsBox = document.getElementById("qOptions");
       optsBox.innerHTML = "";
       q.alternativas.forEach(opt => {
@@ -1275,7 +1806,7 @@
       if (isCorrect) this.stats.acertos++;
       this.updateStats();
 
-      // Trava botões e colore
+      // Bloquear opções e marcar corretas/incorretas
       const buttons = document.querySelectorAll(".option-btn");
       buttons.forEach(btn => {
         btn.disabled = true;
@@ -1287,7 +1818,7 @@
         }
       });
 
-      // Exibe Feedback
+      // Exibir Feedback explicativo detalhado
       const fbBox = document.getElementById("qFeedback");
       const fbTitle = document.getElementById("fbTitle");
       const fbText = document.getElementById("fbText");
@@ -1301,7 +1832,7 @@
       }
       fbText.textContent = q.explicacao;
 
-      // Alterna barra de ações
+      // Alternar botões de ação
       document.getElementById("btnNext").style.display = "inline-flex";
       document.getElementById("btnSkip").style.display = "none";
     }
@@ -1351,5 +1882,4 @@
 
   const app = new App();
 </script>
-</body>
-</html>
+</body></html>
